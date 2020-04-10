@@ -42,7 +42,6 @@ function varargout = GUI_vid(varargin)
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
-% Edit the above text to modify the response to help GUI_vid
 
 % Last Modified by GUIDE v2.5 10-Apr-2020 00:00:03
 global StopF %stop button flag
@@ -72,15 +71,8 @@ else
 end
 % End initialization code - DO NOT EDIT
 
-
 % --- Executes just before GUI_vid is made visible.
 function GUI_vid_OpeningFcn(hObject, eventdata, handles, varargin)
-% This function has no output args, see OutputFcn.
-% hObject    handle to figure
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to GUI_vid (see VARARGIN)
-
 % Choose default command line output for GUI_vid
 handles.output = hObject;
 
@@ -92,31 +84,19 @@ guidata(hObject, handles);
 % UIWAIT makes GUI_vid wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
-
 % --- Outputs from this function are returned to the command line.
 function varargout = GUI_vid_OutputFcn(hObject, eventdata, handles) 
-% varargout  cell array for returning output args (see VARARGOUT);
-% hObject    handle to figure
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
 % Get default command line output from handles structure
 varargout{1} = handles.output;
 
-
 %defines sampling period of videoTimestamps - one video timestamp is
-%captured every "periodo_vTS" frames
-function h = periodo_vTS
-h = 10; 
+%captured every "period_vTS" frames
+function h = period_vTS
+h = 10; %default sampling period (in frames) of videoTimestamps
 
 % --- Executes on button press in tbPlayPause.
 function tbPlayPause_Callback(hObject, eventdata, handles)
-% hObject    handle to tbPlayPause (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hint: get(hObject,'Value') returns toggle state of tbPlayPause
-global StopF
+global StopF %playback stop flag
 
 %loops frame display
 if get(hObject,'Value') %play
@@ -124,24 +104,24 @@ if get(hObject,'Value') %play
     while (handles.currFrameNum<handles.totalFrames) && ~StopF %check if stop was pressed, and if the current frame is greater than the total number of frames
         tic
         handles.currFrameNum = 1+handles.currFrameNum;%updates number of frames
-        currFrame = read(handles.videoH,handles.currFrameNum);
+        currFrame = read(handles.videoH,handles.currFrameNum);%get current frame
         showFrameOnAxis_2(handles.axes1, currFrame);
         axes(handles.axes1);
         imagesc(currFrame);%shows current frame on figure
-        set(handles.sliderplay,'Value',handles.currFrameNum );%update slider
-        set(handles.FrameStr,'String',sprintf('Frames: %.0f/%.0f',handles.currFrameNum,handles.totalFrames));%update counters
+        set(handles.sliderplay,'Value',handles.currFrameNum );%update video frame slider
+        set(handles.FrameStr,'String',sprintf('Frames: %.0f/%.0f',handles.currFrameNum,handles.totalFrames));%update frame counters
         set(handles.FrameStrSec,'String',sprintf('Time: %.1f/%.1f',handles.videoH.CurrentTime,handles.videoH.Duration));
         set (gca,'visible','off')
-        
+       
         %handles.currFrameNum
-        if mod(handles.currFrameNum-1,periodo_vTS)== 0 && isfield(handles,'Ephys')
+        if mod(handles.currFrameNum-1,period_vTS)== 0 && isfield(handles,'Ephys')
             updateLFPaxis_Callback(handles) %one video timestamp for every 10 video frames - updates the LFP plot
         end
         ttemp = toc;
         
         if ttemp < 1/handles.FR
             pause(((1/handles.FR)-ttemp)) 
-            %java.lang.Thread.sleep(((1/handles.FR)-ttemp)*1000);
+            %java.lang.Thread.sleep(((1/handles.FR)-ttemp)*1000);%alternative pause function
         end
         guidata(hObject, handles);
     end
@@ -150,21 +130,17 @@ else % pause video display
 end
 guidata(hObject, handles);
 
-
+%load video 
 % --------------------------------------------------------------------
 function load_vid_Callback(hObject, eventdata, handles)
-% hObject    handle to load_vid (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 format long
-
+%user selects video to load
 [fileStr,pathStr] = uigetfile({'*.asf;*.asx;*.avi;*.m4v;*.mj2;*.mdl;*.mov;*.mp4;*.mpg;*.wmv',...
     'Video Files (*.mp4,*.asf,*.asx,*.avi,*.m4v,*.mj2,*.mdl,*.mov,*.mp4,*.mpg,*.wmv)';...
     '*.*',  'All Files (*.*)'}, ...
    'Select a Video File');
-handles.vidStr = [pathStr fileStr];
+handles.vidStr = [pathStr fileStr];%string showing video file and dir
 set(handles.fileStr,'String',sprintf('Video:%s\nLFP:%s',handles.vidStr,handles.LFPStr));
-
 
 %open video
 handles.videoH = VideoReader([pathStr fileStr]);
@@ -182,7 +158,7 @@ axes(handles.axes1)
 %set(handles.axes1,'YLim',[1 handles.videoH.Height]);
 showFrameOnAxis_2(handles.axes1, currFrame);
 
-%update slider
+%update video frame slider
 ssteps = [1, 1]/(handles.totalFrames-1);
 set(handles.sliderplay,'Max',handles.totalFrames);
 set(handles.sliderplay,'Min',1);
@@ -195,13 +171,10 @@ set(handles.FrameStrSec,'String',sprintf('Time: %.1f/%.1f',0,handles.videoH.Dura
 
 guidata(hObject, handles);
 
-
-%abre registro openEphys
+%open openEphys recording
 % --------------------------------------------------------------------
 function OpenEphys_Callback(hObject, eventdata, handles)
 % hObject    handle to OpenEphys (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 global LFPfiles
 %select 1 open ephys channel
 [fileStr,pathStr] = uigetfile({'*.continuous',...
@@ -219,37 +192,34 @@ end
 %time points (dataTime), info, as well as event timestamps, given next...
 %load events
 [tsLabels,tsTimes, ~] = load_open_ephys_data([pathStr 'all_channels.events']);
-assignin('base','Ephysinfo',Ephysinfo);% TODO - conferir se nï¿½o precisa mesmo do campo info do open ephys 
-handles.FsOrig = Ephysinfo.header.sampleRate;
+%assignin('base','Ephysinfo',Ephysinfo);
+handles.FsOrig = Ephysinfo.header.sampleRate;%original LFP sampling frequency
 %updates static text with filenames
 handles.LFPStr = [pathStr fileStr{1}];
 set(handles.fileStr,'String',sprintf('Video:%s\nLFP:%s',handles.vidStr,handles.LFPStr));
 set(handles.popCanais,'String',cellfun(@(x) x(1:find(x=='.',1,'first')-1), fileStr,'UniformOutput',false));%atualiza menu popup com os canais selecionados
-
+%Ephys video timestamp labels
 handles.Ephys.vTSlabels = tsLabels(tsLabels==0);
 handles.Ephys.vTStime = tsTimes(tsLabels==0);
 %
 handles.Ephys.trialTSlabels = tsLabels(tsLabels~=0);
 handles.Ephys.trialTStime = tsTimes(tsLabels~=0);
-%trialTS = trial time stamps (TODO: conferir como serï¿½o os protocolos - ex: funciona ok para trigger de estimulaï¿½ï¿½o, mas nao para os que usam ASSR)
+%trialTS = trial time stamps (TODO - update to deal with ASSR timestamps)
 %vTS = video Time stamps used for sync (label = 1) - every 10 frames, one vTS is saved
 
-%filtra e decima o sinal
-%interface
-%abre caixa de dialogo para selecionar alguns parametros
-strDialog = {'Fator de Decimaï¿½ï¿½o',...
-     'Filtro Passa-altas (cutoff 1 Hz) S/N',...
-     'Filtro Notch (60 e 120 Hz) S/N',...
-     'Filtro Passa-baixas (0-450 Hz) S/N'};
-handles.sPreProc = inputdlg(strDialog,'Seleï¿½ï¿½o de Parï¿½metros',[1 1 1 1],{'1','S','S','S'});%selected preprocessing 
+%filter+decimate LFP
+%User interface
+strDialog = {'Decimation factor',...
+     'Highpass filter (cutoff 1 Hz) Y/N',...
+     'Notch filter (60 e 120 Hz) Y/N',...
+     'Lowpass filter(0-450 Hz) Y/N'};
+handles.sPreProc = inputdlg(strDialog,'LFP parameter selection',[1 1 1 1],{'1','Y','Y','Y'});%selected preprocessing 
 decrate = str2double(handles.sPreProc{1});
-
-[handles.Ephys.data handles.Ephys.dataTime] = filtraSinal(handles);
+[handles.Ephys.data handles.Ephys.dataTime] = LFPfilter(handles);
 handles.Ephys.Fs = handles.FsOrig/decrate;
 %LFP type and file
 LFPfiles = fileStr;
 handles.LFPtype = 'OpenEphys';
-
 disp('Ok, done!');
 %plot LFP
 axes(handles.LFPaxes)
@@ -270,12 +240,10 @@ end
 handles.LFP_plot.XDataSource = 'handles.Ephys.dataTime(idxs)';
 handles.LFP_plot.YDataSource = 'handles.Ephys.data(idxs)';
 
-%selecionar soh labels 1 - frames  - label 2 aparece como linha no plot
 guidata(hObject, handles);
 
-%processamento do sinal - decimacao e filtragem
-function [dataOut, timeOut] = filtraSinal(handles)
-
+%preprocess LFP - decimate + filters
+function [dataOut, timeOut] = LFPfilter(handles)
 decrate = str2double(handles.sPreProc{1});
 
 if decrate > 1
@@ -287,10 +255,10 @@ else
 end
 
 %filters
-if strcmpi(handles.sPreProc{2},'s')%highpass
+if strcmpi(handles.sPreProc{2},'y')%highpass
     handles.Ephys.data = fun_myfilters(handles.Ephys.data,handles.Ephys.Fs ,[1 0],'iir',0);
 end
-if strcmpi(handles.sPreProc{3},'s') %notch
+if strcmpi(handles.sPreProc{3},'y') %notch
     Wo = 60/( handles.Ephys.Fs/2);  BW = Wo/35;
     [b,a] = iirnotch(Wo,BW);
     
@@ -299,7 +267,7 @@ if strcmpi(handles.sPreProc{3},'s') %notch
     handles.Ephys.data = filtfilt(b,a,handles.Ephys.data);
     handles.Ephys.data = filtfilt(b2,a2,handles.Ephys.data);
 end
-if strcmpi(handles.sPreProc{4},'s')%lowpass
+if strcmpi(handles.sPreProc{4},'y')%lowpass
     handles.Ephys.data = fun_myfilters(handles.Ephys.data,handles.Ephys.Fs,[0 450],'iir',0);
 end
 
@@ -307,61 +275,54 @@ dataOut = handles.Ephys.data;
 timeOut = handles.Ephys.dataTime;
 
 
-%abre registro .mat
+%open .mat LFP
 % --------------------------------------------------------------------
 function openMat_Callback(hObject, eventdata, handles)
-% hObject    handle to openMat (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 global LFPfiles
 global LFPvar
 
-%Seleciona registro .mat
+%select .mat file
 [fileStr,pathStr] = uigetfile({'*.mat'},'Select .mat recording');
-%seleciona qual variavel eh o registro
+%select which variable is LFP 
 varsMat = who('-file', [pathStr fileStr]);
-sel3 = listdlg('PromptString','Selecione o nome da variï¿½vel:',...
+sel3 = listdlg('PromptString','Select LFP variable:',...
     'SelectionMode','single',...
     'ListString',varsMat);
 LFPvar = varsMat{sel3};
-if find(strcmp(varsMat,'Fs'))%se o .mat tiver uma variavel Fs, essa eh a frequencia de amostragem
-    %abre registro
+if find(strcmp(varsMat,'Fs'))%If .mat contains variable Fs, it is considered as the sampling frequency (in Hz)
     load([pathStr fileStr],LFPvar,'Fs');
 else%caso contrario, usuario digita no console
-    Fs = input('\nDigite a Frequï¿½ncia de Amostragem (em Hz):');
+    Fs = input('\nLFP sampling frequency (Hz) = ');
 end
-
 handles.Ephys.Fs = Fs;
-
 LFPmat = eval(LFPvar);
 
-%mostra 1o canal
+%shows 1st channel
 if size(LFPmat,1)>1
     handles.Ephys.data = LFPmat(1,:);
 end
-%cria vetor de tempo
+%time vector
 handles.Ephys.dataTime = [0:length(LFPmat)-1]/handles.Ephys.Fs;
 handles.FsOrig = handles.Ephys.Fs;
 
-%atualiza campos
+%update fields
 handles.LFPStr = [pathStr fileStr];
 set(handles.fileStr,'String',sprintf('Video:%s\nLFP:%s',handles.vidStr,handles.LFPStr));
-%atualiza popup canais
-set(handles.popCanais,'String',cellfun(@num2str,num2cell(1:size(LFPmat,1)),'UniformOutput',false));%atualiza menu popup com os canais selecionados
+%update channel popup
+set(handles.popCanais,'String',cellfun(@num2str,num2cell(1:size(LFPmat,1)),'UniformOutput',false));%update popup menu with selected channels
 
 %filtra e decima o sinal
 %interface
 %abre caixa de dialogo para selecionar alguns parametros
-strDialog = {'Fator de Decimaï¿½ï¿½o',...
-     'Filtro Passa-altas (cutoff 1 Hz) S/N',...
-     'Filtro Notch (60 e 120 Hz) S/N',...
-     'Filtro Passa-baixas (0-450 Hz) S/N',...
-     'LFP offset (quantos segundos o LFP estï¿½ adiantado (>0) ou atrasado(<0) em relaï¿½ï¿½o ao vï¿½deo)'};
-handles.sPreProc = inputdlg(strDialog,'Seleï¿½ï¿½o de Parï¿½metros',[1 1 1 1 1],{'1','S','S','S','0'});%selected preprocessing 
+strDialog = {'Decimation factor',...
+     'Highpass filter (cutoff 1 Hz) Y/N',...
+     'Notch filter (60 e 120 Hz) Y/N',...
+     'Lowpass filter(0-450 Hz) Y/N'};
+handles.sPreProc = inputdlg(strDialog,'LFP parameter selection',[1 1 1 1],{'1','Y','Y','Y'});%selected preprocessing 
 handles.sPreProc{5} = str2double(handles.sPreProc{5});
 decrate = str2double(handles.sPreProc{1});
 %LFP preprocessing - filter, decimate
-[handles.Ephys.data handles.Ephys.dataTime] = filtraSinal(handles);
+[handles.Ephys.data handles.Ephys.dataTime] = LFPfilter(handles);
 handles.Ephys.Fs = handles.FsOrig/decrate;%new sampling frequency
 handles.LFPtype = 'mat';
 
@@ -381,10 +342,6 @@ guidata(hObject, handles);
 
 % --- Executes on slider movement.
 function sliderplay_Callback(hObject, eventdata, handles)
-% hObject    handle to sliderplay (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
 %get the frame selected with the slider
 handles.currFrameNum = round(get(hObject,'Value'));
 %update axes with selected frame
@@ -403,9 +360,6 @@ guidata(hObject, handles);
 
 % --- Executes on button press in pbTS.
 function pbTS_Callback(hObject, eventdata, handles) %#ok<*INUSL>
-% hObject    handle to pbTS (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 global uTScount
 global uTSframe
 global uTSsec
@@ -422,7 +376,6 @@ if length(get(handles.list1,'string')) == length(get(handles.list2,'string'))%on
     temp = char(a);
     c = strvcat(temp,sprintf('%.0f',handles.currFrameNum));
     set(handles.list1,'string',cellstr(c));
-
 else
     %offset TS
     %get current frame and adds to TS variable (frame and seconds)
@@ -440,9 +393,6 @@ guidata(hObject, handles);
 
 % --- Executes on button press in pbTSdel.
 function pbTSdel_Callback(hObject, eventdata, handles)
-% hObject    handle to pbTSdel (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 global uTScount
 global uTSframe
 global uTSsec
@@ -487,10 +437,10 @@ if isfield(handles,'Ephys')%user selected timestamps relative to LFP - if OpenEp
     %...(video and LFP share the same time, but not the same indexes)
     if strcmpi(handles.LFPtype, 'OpenEphys') 
         for ii = 1:size(uTSframe,1)
-            videoTStemp = handles.Ephys.vTStime(ceil(uTSframe(ii,1)/periodo_vTS));%timestamp of selected frame
+            videoTStemp = handles.Ephys.vTStime(ceil(uTSframe(ii,1)/period_vTS));%timestamp of selected frame
             uTS_LFPsec(ii,1) = videoTStemp;
             uTS_LFPidx(ii,1) = find(handles.Ephys.dataTime>=videoTStemp,1,'first');
-            videoTStemp2 = handles.Ephys.vTStime(ceil(uTSframe(ii,2)/periodo_vTS));%timestamp of selected frame
+            videoTStemp2 = handles.Ephys.vTStime(ceil(uTSframe(ii,2)/period_vTS));%timestamp of selected frame
             uTS_LFPsec(ii,2) = videoTStemp2;
             uTS_LFPidx(ii,2) = find(handles.Ephys.dataTime>=videoTStemp2,1,'first');
         end
@@ -522,7 +472,7 @@ yScale = get(handles.yaxisScale,'String');
 
 if strcmpi(handles.LFPtype,'OpenEphys') || strcmpi(handles.LFPtype,'TDT') %open Ephys recording with videoTimestamps
     %current frame corresponds to which LFP time point?
-    frameTime = handles.Ephys.vTStime(ceil(handles.currFrameNum/periodo_vTS));
+    frameTime = handles.Ephys.vTStime(ceil(handles.currFrameNum/period_vTS));
 else %.mat file
     frameTime = handles.videoH.CurrentTime + handles.sPreProc{5}; 
 end
@@ -596,29 +546,21 @@ end
 guidata(hObject, handles);
 
 
-% --- Executes on selection change in popCanais.
+% --- updates LFP display - Executes on selection change in popCanais 
 function popCanais_Callback(hObject, eventdata, handles)
-% hObject    handle to popCanais (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns popCanais contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popCanais
 global LFPfiles % selected LFP file(s)
 global LFPvar %if .mat, the LFP data variable name
 selCh = get(hObject,'Value');
 
-switch lower(handles.LFPtype)
+switch lower(handles.LFPtype)%which recording system
     case 'openephys'
     pathStr = handles.LFPStr(1:find(handles.LFPStr=='\',1,'last'));
-    
     handles.LFPStr = [pathStr LFPfiles{selCh}];
     [handles.Ephys.data, handles.Ephys.dataTime, ~] = load_open_ephys_data([pathStr LFPfiles{selCh}]);%if >1 channels selected, shows the first
     set(handles.fileStr,'String',sprintf('Video:%s\nLFP:%s',handles.vidStr,handles.LFPStr));
-    %filtra o sinal
+    %decimate LFP 
     decrate = str2double(handles.sPreProc{1});
     handles.Ephys.Fs = handles.FsOrig/decrate;
-    
     case 'tdt'
         handles.Ephys.data = evalin('base', sprintf('tdtLFPdata(%d,:)',selCh)); 
     case 'mat' %TODO use base workspace for other channels?
@@ -627,7 +569,7 @@ switch lower(handles.LFPtype)
     handles.Ephys.data = tempMat(selCh,:);        
 end
 
-[handles.Ephys.data, handles.Ephys.dataTime] = filtraSinal(handles);
+[handles.Ephys.data, handles.Ephys.dataTime] = LFPfilter(handles);
 
 updateLFPaxis_Callback(handles)
 
@@ -635,11 +577,109 @@ guidata(hObject, handles);
 
 
 % --- Executes during object creation, after setting all properties.
-function popCanais_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to popCanais (see GCBO)
+function list1_CreateFcn(hObject, eventdata, handles)  %list with onset timestamps 
+% hObject    handle to list1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+global uTScount
+global uTSframe
+global uTSsec
+%create timestamp variables
+uTSframe = zeros(1,2);%user defined timestamps, in frames
+uTSsec = zeros(1,2);%user defined timestamps, in seconds (relative do VIDEO)
+uTScount = 0;
+guidata(hObject, handles);
+
+
+% ------ open LFP from TDT
+function openTDT_Callback(hObject, eventdata, handles)
+%opens TDT recording + video trigger
+teste = figure();
+TDT_header = HeaderBloco();%select tank-block and read TDT header
+
+%read video trigger
+teste = figure();
+[ TDT_videoOut ] = LerTrigger2( TDT_header,'Select video trigger (default VIDF)' );
+if ~isempty(TDT_videoOut)
+    handles.Ephys.vTStime = TDT_videoOut.time(TDT_videoOut.sort==0);
+    %vTS = video Time stamps used for sync (label = 1) - every 10 frames, one vTS is saved
+end
+
+%read stream - LFP
+teste = figure();
+[ TDT_streamOut ] = LerStream( TDT_header,0,0 );
+
+handles.FsOrig = TDT_streamOut{1}.FreqAmos;%sampling frequency
+ 
+Ncanais = TDT_streamOut{1}.nChannels;
+tdtLFPdata = double(TDT_streamOut{1}.Dados)';
+assignin('base','tdtLFPdata',tdtLFPdata); %all channel data to base workspace
+handles.Ephys.data = tdtLFPdata(1,:);
+handles.Ephys.dataTime = [0:size(tdtLFPdata,2)-1]/handles.FsOrig;
+
+handles.LFPStr = sprintf('Tank %s , Block %s',TDT_header.TANK_in,TDT_header.BLOCK_in);
+set(handles.fileStr,'String',sprintf('Video:%s\nLFP:%s',handles.vidStr,handles.LFPStr));
+set(handles.popCanais,'String',cellfun(@num2str,num2cell(1:Ncanais),'UniformOutput',false));%atualiza menu popup com os canais selecionados
+
+%TODO load (trial/stim) trigger labels
+
+%filtra e decima o sinal
+%interface
+%abre caixa de dialogo para selecionar alguns parametros
+strDialog = {'Decimation factor',...
+     'Highpass filter (cutoff 1 Hz) Y/N',...
+     'Notch filter (60 e 120 Hz) Y/N',...
+     'Lowpass filter(0-450 Hz) Y/N'};
+handles.sPreProc = inputdlg(strDialog,'LFP parameter selection',[1 1 1 1],{'1','Y','Y','Y'});%selected preprocessing 
+decrate = str2double(handles.sPreProc{1});
+
+[handles.Ephys.data handles.Ephys.dataTime] = LFPfilter(handles);
+handles.Ephys.Fs = handles.FsOrig/decrate;
+%LFP type and file
+handles.LFPtype = 'TDT';
+
+%plot LFP
+axes(handles.LFPaxes)
+cla(handles.LFPaxes);
+handles.LFP_plot = plot(handles.Ephys.dataTime,handles.Ephys.data);
+%plot trial timestamps
+hold on
+handles.trialTSplot = plot(0,0,'r.');
+hold off
+
+handles.LFP_plot.XDataSource = 'handles.Ephys.dataTime(idxs)';
+handles.LFP_plot.YDataSource = 'handles.Ephys.data(idxs)';
+
+guidata(hObject, handles);
+
+
+
+% --- Executes during object creation, after setting all properties.
+function tbPlayPause_CreateFcn(hObject, ~, ~)
+% hObject    handle to tbPlayPause (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+set(hObject,'cdata',imread('PP.png'))
+
+
+% --- Executes on button press in pbDebug - export handles to workspace
+function pbDebug_Callback(hObject, eventdata, handles)
+% hObject    handle to pbDebug (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+assignin('base','handles',handles)
+
+guidata(hObject, handles);
+
+
+% --- Executes during object creation, after setting all properties.
+function popCanais_CreateFcn(hObject, eventdata, handles)
 % Hint: popupmenu controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
@@ -648,10 +688,6 @@ end
 
 % --- Executes during object creation, after setting all properties.
 function sliderplay_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to sliderplay (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
 % Hint: slider controls usually have a light gray background.
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
@@ -663,20 +699,17 @@ function FrameStr_CreateFcn(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
-
 % --- Executes during object deletion, before destroying properties.
 function FrameTotStr_DeleteFcn(hObject, eventdata, handles)
 % hObject    handle to FrameTotStr (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-
 % --- Executes during object creation, after setting all properties.
 function FrameStrSec_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to FrameStrSec (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
-
 
 % --- Executes on selection change in list1.
 function list1_Callback(hObject, eventdata, handles)  %list with onset timestamps 
@@ -745,109 +778,6 @@ function Untitled_2_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes during object creation, after setting all properties.
-function list1_CreateFcn(hObject, eventdata, handles)  %list with onset timestamps 
-% hObject    handle to list1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: listbox controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-global uTScount
-global uTSframe
-global uTSsec
-%create timestamp variables
-uTSframe = zeros(1,2);%user defined timestamps, in frames
-uTSsec = zeros(1,2);%user defined timestamps, in seconds (relative do VIDEO)
-uTScount = 0;
-
-guidata(hObject, handles);
-
-% --- Executes during object creation, after setting all properties.
-function tbPlayPause_CreateFcn(hObject, ~, ~)
-% hObject    handle to tbPlayPause (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-set(hObject,'cdata',imread('PP.png'))
-
-
-% --- Executes on button press in pbDebug.
-function pbDebug_Callback(hObject, eventdata, handles)
-% hObject    handle to pbDebug (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-assignin('base','handles',handles)
-
-guidata(hObject, handles);
-
-% --------------------------------------------------------------------
-function openTDT_Callback(hObject, eventdata, handles)
-% hObject    handle to openTDT (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-%opens TDT recording + video trigger
-teste = figure();
-TDT_header = HeaderBloco();%select tank-block and read TDT header
-
-%read video trigger
-teste = figure();
-[ TDT_videoOut ] = LerTrigger2( TDT_header,'Select video trigger (default VIDF)' );
-if ~isempty(TDT_videoOut)
-    handles.Ephys.vTStime = TDT_videoOut.time(TDT_videoOut.sort==0);
-    %vTS = video Time stamps used for sync (label = 1) - every 10 frames, one vTS is saved
-end
-
-%read stream - LFP
-teste = figure();
-[ TDT_streamOut ] = LerStream( TDT_header,0,0 );
-
-handles.FsOrig = TDT_streamOut{1}.FreqAmos;%sampling frequency
- 
-Ncanais = TDT_streamOut{1}.nChannels;
-tdtLFPdata = double(TDT_streamOut{1}.Dados)';
-assignin('base','tdtLFPdata',tdtLFPdata); %all channel data to base workspace
-handles.Ephys.data = tdtLFPdata(1,:);
-handles.Ephys.dataTime = [0:size(tdtLFPdata,2)-1]/handles.FsOrig;
-
-handles.LFPStr = sprintf('Tank %s , Block %s',TDT_header.TANK_in,TDT_header.BLOCK_in);
-set(handles.fileStr,'String',sprintf('Video:%s\nLFP:%s',handles.vidStr,handles.LFPStr));
-set(handles.popCanais,'String',cellfun(@num2str,num2cell(1:Ncanais),'UniformOutput',false));%atualiza menu popup com os canais selecionados
-
-%TODO load (trial/stim) trigger labels
-
-%filtra e decima o sinal
-%interface
-%abre caixa de dialogo para selecionar alguns parametros
-strDialog = {'Fator de Decimaï¿½ï¿½o',...
-     'Filtro Passa-altas (cutoff 1 Hz) S/N',...
-     'Filtro Notch (60 e 120 Hz) S/N',...
-     'Filtro Passa-baixas (0-450 Hz) S/N'};
-handles.sPreProc = inputdlg(strDialog,'Seleï¿½ï¿½o de Parï¿½metros',[1 1 1 1],{'1','S','S','S'});%selected preprocessing 
-decrate = str2double(handles.sPreProc{1});
-
-[handles.Ephys.data handles.Ephys.dataTime] = filtraSinal(handles);
-handles.Ephys.Fs = handles.FsOrig/decrate;
-%LFP type and file
-handles.LFPtype = 'TDT';
-
-%plot LFP
-axes(handles.LFPaxes)
-cla(handles.LFPaxes);
-handles.LFP_plot = plot(handles.Ephys.dataTime,handles.Ephys.data);
-%plot trial timestamps
-hold on
-handles.trialTSplot = plot(0,0,'r.');
-hold off
-
-handles.LFP_plot.XDataSource = 'handles.Ephys.dataTime(idxs)';
-handles.LFP_plot.YDataSource = 'handles.Ephys.data(idxs)';
-
-guidata(hObject, handles);
-
 
 % --- Executes during object creation, after setting all properties.
 function fileStr_CreateFcn(hObject, eventdata, handles)
@@ -875,5 +805,8 @@ function Untitled_3_Callback(hObject, eventdata, handles)
 
 % --------------------------------------------------------------------
 
-%% last update 10/04/2020 - 01:43am
+%%
+%update 10/04/2020 - 01:43am by Dr. Mourão
 %  listening: Early Day Miners - Sterling Provisions
+%update 10/04/2020 7:25pm by VRC - translating and tidying up code
+%  listening: Hath - Of rot and ruin
