@@ -42,6 +42,9 @@ Hilbert_phase.m
  (https://www.mathworks.com/matlabcentral/fileexchange/10676-circular-statistics-toolbox-directional-statistics)<br />
 - Make some plots<br /> 
 
+Track_3d.m<br /> 
+- Plot electrophysiological parameters over the displacement map<br /> 
+
 All code by Flavio Mourao. Nucleo de Neurociencias - NNC<br />
 email: mourao.fg@gmail.com<br />
 Universidade Federal de Minas Gerais<br />
