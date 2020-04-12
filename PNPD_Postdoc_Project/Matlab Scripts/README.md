@@ -43,7 +43,7 @@ Hilbert_phase.m
 - Make some plots<br /> 
 
 Track_3d.m<br /> 
-- Plot electrophysiological parameters over the displacement map<br /> 
+- Plot electrophysiological parameters as a heat map on the animal's track<br /> 
 
 All code by Flavio Mourao. Nucleo de Neurociencias - NNC<br />
 email: mourao.fg@gmail.com<br />

@@ -1,5 +1,5 @@
 
-%% Plot electrophysiological parameters on the displacement map
+%% Plot electrophysiological parameters as a heat map on the animal's track
 
 % Flavio Mourao. Nucleo de Neurociencias NNC.
 % email: mourao.fg@gmail.com
