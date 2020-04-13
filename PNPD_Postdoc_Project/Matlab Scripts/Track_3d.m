@@ -92,6 +92,6 @@ colorbar
 
 clear('c')
 
-%% last update 11/04/2020 - 21:20am
+%% last update 11/04/2020 - 21:20
 %  listening: Milton Nascimento - Fé cega / faca amolada
 

@@ -45,6 +45,10 @@ Hilbert_phase.m
 Track_3d.m<br /> 
 - Plot electrophysiological parameters as a heat map on the animal's track<br /> 
 
+Video_Analyses.m<br /> 
+- Behavioral Analysis from *.csv files imported from Bonsai software and beginning and end of trials index identified through the Video Guide<br /> 
+- Make some plots<br /> 
+
 All code by Flavio Mourao. Nucleo de Neurociencias - NNC<br />
 email: mourao.fg@gmail.com<br />
 Universidade Federal de Minas Gerais<br />
