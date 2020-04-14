@@ -1,8 +1,8 @@
 
 %%  Behavioral Analysis. 
 
-% - From *.csv files imported from Bonsai software
-%   and beginning and end of trials index identified through the Video Guide
+% - *.csv files imported from Bonsai software
+%   and frame trials index identified through the Video Guide
 
 % - Analyse one or more *.csv files
 

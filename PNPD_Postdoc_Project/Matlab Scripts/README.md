@@ -47,6 +47,18 @@ Track_3d.m<br />
 
 Video_Analyses.m<br /> 
 - Behavioral Analysis from *.csv files imported from Bonsai software and beginning and end of trials index identified through the Video Guide<br /> 
+
+    Outputs:
+
+    . x and y coordinates in pixels<br /> 
+    . x and y coordinates in cm<br /> 
+    . x / y derivative in cm<br /> 
+    . displacement in cm <br /> 
+    . accumulated distance over time in cm <br /> 
+    . total distance covered in cm <br /> 
+    . time vector<br />  
+
+
 - Make some plots<br /> 
 
 All code by Flavio Mourao. Nucleo de Neurociencias - NNC<br />
