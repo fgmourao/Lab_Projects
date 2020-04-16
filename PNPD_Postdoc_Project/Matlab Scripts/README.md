@@ -46,18 +46,20 @@ Track_3d.m<br />
 - Plot electrophysiological parameters as a heat map on the animal's track<br /> 
 
 Video_Analyses.m<br /> 
-- Behavioral Analysis from *.csv files imported from Bonsai software and beginning and end of trials index identified through the Video Guide<br /> 
+- Behavioral Analysis from *.csv files imported from Bonsai software and from frame trials index identified through the Video Guide<br /> 
 
     Outputs:
 
     . x and y coordinates in pixels<br /> 
     . x and y coordinates in cm<br /> 
     . x / y derivative in cm<br /> 
-    . displacement in cm <br /> 
-    . accumulated distance over time in cm <br /> 
-    . total distance covered in cm <br /> 
+    . Displacement in cm <br /> 
+    . Accumulated distance over time in cm <br /> 
+    . Total distance covered in cm <br /> 
+    . Total distance covered in cm in each trial (sound on) <br />   
+    . Total distance covered in all trials (sound on) <br /> 
+    . Total distance covered out of trials (sound off) <br /> 
     . time vector<br />  
-
 
 - Make some plots<br /> 
 
