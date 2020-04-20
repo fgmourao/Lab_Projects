@@ -1,8 +1,9 @@
 
 %% Phase analyses based on Hilbert Transform
 
+% The code relies on the following package:
 % --> circular-statistics-toolbox
-% https://www.mathworks.com/matlabcentral/fileexchange/10676-circular-statistics-toolbox-directional-statistics
+% https://github.com/circstat/circstat-matlab 
 
 
 % Flavio Mourao. Nucleo de Neurociencias NNC.

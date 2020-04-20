@@ -22,18 +22,18 @@ Pre_processing
 %% Filters - Plot to check
 
 % Choose filter band
-ff = 10;
+ff = 1;
 
 % choose a channel to plot
-ch = 3;
+ch = 1;
 
 figure
 set(gcf,'color','white')
 box 'off'
 
-hold all
+%hold all
 
-plot(data.timev,data.data{1,ff}(ch,:),'Color', '[0.7 0.7 0.7]','linew',1);
+plot(data.timev,data.data{1,ff}(ch,:),'Color', '[0.7, 0.7, 0.7]','linew',1);
 
 % Set the transparency of lines for the Light events
 % In newer versions of MATLAB you can do that easily using the Color property of the line.

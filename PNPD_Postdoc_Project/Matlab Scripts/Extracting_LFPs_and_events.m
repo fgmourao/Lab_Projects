@@ -4,7 +4,7 @@ function [data, parameters] = Extracting_LFPs_and_events()
 % Extracting LFPs and Events from Intan/Open Ephys
 
 % - extract, organize and save data from Intan/Open Ephys:  *.continuous and  *.events
-% - Required function: load_open_ephys_data.m (https://github.com/open-ephys/analysis-tools)<br />
+% - Required function: load_open_ephys_data.m (https://github.com/open-ephys/analysis-tools)
 
 % - Option: down sampling data
 
@@ -45,7 +45,7 @@ parameters.nch = sum(contains(FilesLoaded, 'continuous'));
 
 % Define a struct with files informations from dir organization'
 % BEWARE ! This organization changes according to the operating system.
-parameters.FilesLoaded = repmat(struct('name',[],'folder',[],'date',[],'bytes',[],'isdir',[],'datenum',[]), 1, length(FilesLoaded));
+% parameters.FilesLoaded = repmat(struct('name',[],'folder',[],'date',[],'bytes',[],'isdir',[],'datenum',[]), 1, length(FilesLoaded));
 
 % Filename can be organize as a single char or a group char in a cell depending on the number os files selected
 if ischar(FilesLoaded)
@@ -60,7 +60,7 @@ end
 % data.Channels = nestedSortStruct(parameters.FilesLoaded,'name',1); % Perform a nested sort of a struct array based on multiple fields. 
                                                                      % >>> https://uk.mathworks.com/matlabcentral/fileexchange/28573-nested-sort-of-structure-arrays?focused=5166120&tab=function
 
-%% Choose factor to LFP down sampling and number of channels recorded
+%% Choose factor to LFP down sampling
 % - Manually - 
 % parameters.downsampling = 6; 
 

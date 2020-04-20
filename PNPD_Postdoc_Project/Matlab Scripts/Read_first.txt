@@ -16,31 +16,21 @@ F_filter.m<br />
    _ Define parameters to 'fun_myfilters.m'.  Filter made by VRCarva (https://github.com/vrcarva) based on EEG_lab: <br />
    
 Pre_processing.m<br />
-- Define sound and behavior epochs<br />
+- Define sound epochs<br />
 - Organize channels according to the electrodes map<br />
 - Estimate the CS modulating signal from digital pulses<br />
 - Concatenate the modulator signal as channel 1<br />
-- Organize data by trials and behavior events<br />
+- Organize data by trials <br />
 - Make some plots<br /> 
 
 sFFT_spectrogram.m
 - Short-time FFT by matlab built function spectrogram <br />
-
-sFFT_spectrogram_Full_Trials.m
-- Organizing data from the spectrogram considering the trial periods<br />  
+- Organizing data trials from the spectrogram<br />  
 - Make some plots<br /> 
 
-sFFT_spectrogram_behavior.m
-- Organizing data from the spectrogram considering the behavior events<br />  
+sFFT_stats.m
+- Performs descriptive analysis from the spectrogram <br />
 - Make some plots<br /> 
-
-sFFT_stats_Full_Trials.m
-- Performs descriptive analysis from the spectrogram considering the trial periods<br />
-- Make some plots<br /> 
-
-sFFT_stats_behavior.m
-- Performs descriptive analysis from the spectrogram considering only the behavior events<br />
-- Make some plots<br />
 
 CorCov.m
 - Performs Correlation and Covariance Matrices betwwen channels <br />
@@ -77,3 +67,24 @@ All code by Flavio Mourao. Nucleo de Neurociencias - NNC<br />
 email: mourao.fg@gmail.com<br />
 Universidade Federal de Minas Gerais<br />
 Brazil<br />
+
+
+
+data.events
+
+% lines                  : trials
+% first column      : trial start
+% second column: trial stop
+
+idx_t -> time index
+Idx   -> sample index
+
+parameters.srate
+sample rate -> 5kHz
+
+-------------------------
+
+G1_Blue_T_ch16_30k.mat
+
+One channel. Sample rate = 30k. Raw data
+Unit/Spike sorte test

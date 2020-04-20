@@ -6,7 +6,7 @@
 %   - Organize channels according to the electrodes map
 %   - Estimate the CS modulating signal from digital pulses
 %   - Concatenate the modulator signal as channel 1
-%   - Organize data by trials
+%   - Organize data by trials and behavior events
 
 %                               - CHANNELS MAP - 
 
@@ -35,12 +35,6 @@
 % Started in:  02/2020
 % Last update: 03/2020
 
-%% Set the parameters for each epoch
-
-parameters.trialperiod = 30; % trial period in seconds
-parameters.Tpre        = 30; % pre trial in seconds
-parameters.Tpos        = 10; % pos trial in seconds
-parameters.NTrials     =  5; % number of trials
 
 %% Organizing channels according to the channels map
 
@@ -157,9 +151,21 @@ F_filter
 % modulator       = [51.71 55.71]; % 12
 % extracutoff3    = [300 3000];    % 13 
 
-%% Organizing Trial Data
+%% Organizing Trial Data - Considering the entire trial period
+
+% Set the parameters for each epoch
+
+parameters.trialperiod = 30; % trial period in seconds
+parameters.Tpre        = 30; % pre trial in seconds
+parameters.Tpos        = 10; % pos trial in seconds
+parameters.NTrials     =  5; % number of trials
+
 
 % Cell columns --> frequencies cutoff according " F_filter.m "
+% in each cell
+% - rows        - channels
+% - columns     - time
+% - 3 dimension - trials
 
 % Initializing trial periods
 data.data_trials     = cell(parameters.NTrials,length(data.data));
@@ -204,5 +210,91 @@ data.time_trials = linspace(-parameters.Tpre,parameters.trialperiod+parameters.T
 
 clear ('totalsamples','ii', 'jj')
 
-%% last update 30/03/2020 - 20:48am
-%  listening: Set Fire To Flames - Fading Lights Are Fading
+
+%% Organizing Trial Data - Considering only behavior periods
+
+% Load idx files (*.mat. behavior events. analyzed in the Guide_Video_Track)
+[FileLoaded,Path] = uigetfile({'*.mat'}); % Define file type *.*
+data.events.behavior = load(fullfile(Path,FileLoaded));
+
+% Minimum behavior period to be considered
+MinTime = 2; % (seconds)
+
+toRemove = find((data.events.behavior.TS_LFPsec(:,2) - data.events.behavior.TS_LFPsec(:,1))<MinTime);
+
+data.events.behavior.TS_LFPindex(toRemove,:) = [];
+data.events.behavior.TS_LFPsec(toRemove,:)   = [];
+data.events.behavior.TSframes(toRemove,:)    = [];
+data.events.behavior.TSseconds(toRemove,:)   = [];
+
+%%
+% Correcting timestamps according to the downsamplig
+% Check if it is necessary !!!
+% The sampling frequency during the video analysis must be the same as the current analysis
+
+data.events.behavior.TS_LFPindex = round(data.events.behavior.TS_LFPindex./parameters.downsampling);
+
+%%
+% Set the parameters for each epoch
+
+% Trial period in seconds. Considering the time of the biggest event
+parameters.behavior.trialperiod = ceil(max(data.events.behavior.TS_LFPsec(:,2)-data.events.behavior.TS_LFPsec(:,1))); 
+% Pre behavior
+parameters.behavior.Tpre        = 3; % (seconds)
+% Pos behavior
+parameters.behavior.Tpos        = 1; % (seconds)
+% Number of behavior events
+parameters.behavior.NTrials     = length(data.events.behavior.TS_LFPsec); 
+
+
+% Cell columns --> frequencies cutoff according " F_filter.m "
+% in each cell
+% - rows        - channels
+% - columns     - time
+% - 3 dimension - behavioral events
+
+% Initializing behavior periods
+data.data_behavior    = cell(parameters.behavior.NTrials,length(data.data));
+
+% Cutting time windows...
+for ii = 1:size(data.data,2)
+    for jj = 1:size(data.events.behavior.TS_LFPindex,1)       
+         data.data_behavior{jj,ii} = data.data{1,ii}(:,data.events.behavior.TS_LFPindex(jj,1) - parameters.behavior.Tpre * parameters.srate : data.events.behavior.TS_LFPindex(jj,2) + parameters.behavior.Tpos * parameters.srate);  
+    end   
+end
+
+% Normalizing total samples with "not a numbers (nan)" in each trial 
+% to the exact time period according to the sample rate.
+
+totalsamples  = max(max(cellfun(@length,data.data_behavior)));
+
+for ii = 1:size(data.data_behavior,2)
+    for jj = 1:size(data.data_behavior,1)        
+        if length(data.data_behavior{jj,ii}) < totalsamples
+           data.data_behavior{jj,ii}(:,end:totalsamples) = nan;
+        else
+           continue
+        end
+    end
+end
+
+clear ('totalsamples')
+
+% Concatenate trials in 3 dimentions
+
+for ii = 1:size(data.data_behavior,2)
+    data.data_behavior{1,ii} = cat(3,data.data_behavior{:,ii});
+end
+
+data.data_behavior(2:end,:) = [];
+
+% Setting Time
+
+% Initializing time trial vectors
+data.time_behavior = linspace(-parameters.behavior.Tpre,parameters.behavior.trialperiod + parameters.behavior.Tpos,length(data.data_behavior{1,1}));
+
+
+clear ('totalsamples','ii', 'jj', 'FileLoaded', 'Path', 'MinTime', 'toRemove')
+
+%% last update 18/04/2020 - 23:46am
+%  listening: Thom Yorke - All for the best
