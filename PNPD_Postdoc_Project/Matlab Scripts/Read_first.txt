@@ -31,7 +31,7 @@ sFFT_spectrogram_Full_Trials.m
 - Make some plots<br /> 
 
 sFFT_spectrogram_behavior.m
-- Organizing data from the spectrogram considering the behavior events<br />  
+- Organizing data from the spectrogram considering only the behavior events<br />  
 - Make some plots<br /> 
 
 sFFT_stats_Full_Trials.m
