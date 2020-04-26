@@ -11,7 +11,8 @@
 %% Follow the scripts below sequentially
 
 % 1)
-Extracting_raw_LFPs_and_events
+[data, parameters] = Extracting_LFPs_and_events();
+
 % 2)
 Pre_processing
 

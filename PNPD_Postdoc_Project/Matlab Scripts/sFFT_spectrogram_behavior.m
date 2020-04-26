@@ -1,4 +1,6 @@
-%%  Organize and plot data from spectrogram considering the behavior events
+
+%%  Organize and plot data from spectrogram 
+%   Considering the behavior events 
 
 % Flavio Mourao. Nucleo de Neurociencias NNC.
 % email: mourao.fg@gmail.com

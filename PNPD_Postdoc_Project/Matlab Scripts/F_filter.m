@@ -70,24 +70,24 @@ clear('jj')
 
 % Define frequencies cutoff
 
-parameters.filter.deltacutoff     = [1 3];         % 3
-parameters.filter.thetacutoff1    = [4 12];        % 4
-parameters.filter.thetacutoff2    = [9 12];        % 5
-parameters.filter.alphacutoff     = [13 15];       % 6
-parameters.filter.betacutoff      = [16 31];       % 7
-parameters.filter.lowgammacutoff  = [30 50];       % 8
-parameters.filter.highgammacutoff = [62 100];      % 9
-parameters.filter.extracutoff1    = [150 200];     % 10
-parameters.filter.extracutoff2    = [1 100];       % 11
-parameters.filter.modulator       = [50.71 56.71]; % 12
+%parameters.filter.deltacutoff     = [1 3];         % 3
+parameters.filter.thetacutoff1    = [4 10];        % 4
+%parameters.filter.thetacutoff2    = [9 12];        % 5
+% parameters.filter.alphacutoff     = [13 15];       % 6
+% parameters.filter.betacutoff      = [16 31];       % 7
+% parameters.filter.lowgammacutoff  = [30 50];       % 8
+% parameters.filter.highgammacutoff = [62 100];      % 9
+% parameters.filter.extracutoff1    = [150 200];     % 10
+% parameters.filter.extracutoff2    = [1 100];       % 11
+% parameters.filter.modulator       = [50.71 56.71]; % 12
 %parameters.filter.extracutoff3    = [300 3000];    % 13
 
 % Each cell --> columns: parameters.filters according to the above order 
 
 for jj = 1:size(data.data{1,1},1)
 
-%     data.data{1,3}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.deltacutoff,'eegfilt','0');
-    data.data{1,4}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.thetacutoff1,'eegfilt','0');
+%     data.data{1,3}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.deltacutoff,'iir','0');
+    data.data{1,3}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.thetacutoff1,'iir','0');
 %     data.data{1,5}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.thetacutoff2,'iir','0');    
 %     data.data{1,6}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.alphacutoff,'iir','0');
 %     data.data{1,7}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.betacutoff,'iir','0');
@@ -95,7 +95,7 @@ for jj = 1:size(data.data{1,1},1)
 %     data.data{1,9}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.highgammacutoff,'iir','0');
 %     data.data{1,10}(jj,:) = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.extracutoff1,'iir','0');
 %     data.data{1,11}(jj,:) = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.extracutoff2,'iir','0');
-%     data.data{1,12}(jj,:) = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.modulator,'eegfilt','0');   
+%     data.data{1,12}(jj,:) = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.modulator,'iir','0');   
     % data.data{1,13}(jj,:) = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.modulator,'iir','0');   
 
 end

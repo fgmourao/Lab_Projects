@@ -33,7 +33,7 @@
 % email: mourao.fg@gmail.com
 % Universidade Federal de Minas Gerais. 
 % Started in:  02/2020
-% Last update: 03/2020
+% Last update: 04/2020
 
 
 %% Organizing channels according to the channels map
@@ -136,21 +136,6 @@ F_filter
 % in "data.data" cell column 2. The other filters will follow 
 % the subsequent columns
 
-% Choose the frequencies cutoff in the F_filter script
-
-%                              cell columns:
-% deltacutoff     = [1 3];         % 3
-% thetacutoff1    = [4 8];         % 4
-% thetacutoff2    = [9 12];        % 5
-% alphacutoff     = [13 15];       % 6
-% betacutoff      = [16 31];       % 7
-% lowgammacutoff  = [30 50];       % 8
-% highgammacutoff = [62 100];      % 9
-% extracutoff1    = [150 200];     % 10
-% extracutoff2    = [1 100];       % 11
-% modulator       = [51.71 55.71]; % 12
-% extracutoff3    = [300 3000];    % 13 
-
 %% Organizing Trial Data - Considering the entire trial period
 
 % Set the parameters for each epoch
@@ -218,7 +203,7 @@ clear ('totalsamples','ii', 'jj')
 data.events.behavior = load(fullfile(Path,FileLoaded));
 
 % Minimum behavior period to be considered
-MinTime = 2; % (seconds)
+MinTime = 5; % (seconds)
 
 toRemove = find((data.events.behavior.TS_LFPsec(:,2) - data.events.behavior.TS_LFPsec(:,1))<MinTime);
 
@@ -242,7 +227,7 @@ parameters.behavior.trialperiod = ceil(max(data.events.behavior.TS_LFPsec(:,2)-d
 % Pre behavior
 parameters.behavior.Tpre        = 3; % (seconds)
 % Pos behavior
-parameters.behavior.Tpos        = 1; % (seconds)
+parameters.behavior.Tpos        = 3; % (seconds)
 % Number of behavior events
 parameters.behavior.NTrials     = length(data.events.behavior.TS_LFPsec); 
 

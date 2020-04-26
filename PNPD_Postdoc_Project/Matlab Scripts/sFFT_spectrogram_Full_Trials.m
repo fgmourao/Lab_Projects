@@ -1,4 +1,6 @@
-%%  Organize and plot data from spectrogram considering the entire trial period
+
+%%  Organize and plot data from spectrogram 
+%   Considering the entire trial period
 
 % Flavio Mourao. Nucleo de Neurociencias NNC.
 % email: mourao.fg@gmail.com

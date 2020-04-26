@@ -20,14 +20,14 @@ Pre_processing.m<br />
 - Organize channels according to the electrodes map<br />
 - Estimate the CS modulating signal from digital pulses<br />
 - Concatenate the modulator signal as channel 1<br />
-- Organize data by trials and behavior events<br />
+- Organize data by trials and by behavior events<br />
 - Make some plots<br /> 
 
 sFFT_spectrogram.m
 - Short-time FFT by matlab built function spectrogram <br />
 
 sFFT_spectrogram_Full_Trials.m
-- Organizing data from the spectrogram considering the trial periods<br />  
+- Organizing data from the spectrogram considering the trial periods - sound on/off<br />  
 - Make some plots<br /> 
 
 sFFT_spectrogram_behavior.m
@@ -35,7 +35,7 @@ sFFT_spectrogram_behavior.m
 - Make some plots<br /> 
 
 sFFT_stats_Full_Trials.m
-- Performs descriptive analysis from the spectrogram considering the trial periods<br />
+- Performs descriptive analysis from the spectrogram considering the trial periods - sound on/off<br />
 - Make some plots<br /> 
 
 sFFT_stats_behavior.m
@@ -43,20 +43,26 @@ sFFT_stats_behavior.m
 - Make some plots<br />
 
 CorCov.m
-- Performs Correlation and Covariance Matrices betwwen channels <br />
+- Performs Correlation and Covariance Matrices betwwen channels considering the trial periods - sound on/off<br />
 - Make some plots<br /> 
 
-Hilbert_phase.m
+Hilbert_phase_Full_Trials.m
 - Phase analyses based on Hilbert Transform. Phase Coherence / Phase lock value (PLV) <br />
+- Performs  analysis  considering the trial periods - sound on/off<br />
 - Required circular-statistics-toolbox<br />
- (https://www.mathworks.com/matlabcentral/fileexchange/10676-circular-statistics-toolbox-directional-statistics)<br />
+- Make some plots<br /> 
+
+Hilbert_phase_behavior
+- Organizing data from the spectrogram considering only the behavior events<br />  
+- Performs  analysis  considering only the behavior events<br />
+- Required circular-statistics-toolbox<br />
 - Make some plots<br /> 
 
 Track_3d.m<br /> 
 - Plot electrophysiological parameters as a heat map on the animal's track<br /> 
 
 Video_Analyses.m<br /> 
-- Behavioral Analysis from *.csv files imported from Bonsai software and from frame trials index identified through the Video Guide<br /> 
+- Behavioral Analysis from *.csv files imported from Bonsai software and from frame trials (sound on/off) index identified through the Video Guide<br /> 
 
     Outputs:
 
