@@ -49,13 +49,13 @@ CorCov.m
 Hilbert_phase_Full_Trials.m
 - Phase analyses based on Hilbert Transform. Phase Coherence / Phase lock value (PLV) <br />
 - Performs  analysis  considering the trial periods - sound on/off<br />
-- Required circular-statistics-toolbox<br />
+- Required circular-statistics-toolbox  (https://github.com/circstat/circstat-matlab) <br />
 - Make some plots<br /> 
 
 Hilbert_phase_behavior
-- Organizing data from the spectrogram considering only the behavior events<br />  
+- Phase analyses based on Hilbert Transform. Phase Coherence / Phase lock value (PLV) <br />
 - Performs  analysis  considering only the behavior events<br />
-- Required circular-statistics-toolbox<br />
+- Required circular-statistics-toolbox (https://github.com/circstat/circstat-matlab) <br />
 - Make some plots<br /> 
 
 Track_3d.m<br /> 
