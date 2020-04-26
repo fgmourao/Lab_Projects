@@ -62,7 +62,7 @@ Track_3d.m<br />
 - Plot electrophysiological parameters as a heat map on the animal's track<br /> 
 
 Video_Analyses.m<br /> 
-- Behavioral Analysis from *.csv files imported from Bonsai software and from frame trials (sound on/off) index identified through the Video Guide<br /> 
+- Behavioral Analysis from *.csv files imported from Bonsai software (https://open-ephys.org/bonsai) and from frame trials (sound on/off) index identified through the Video Guide<br /> 
 
     Outputs:
 
