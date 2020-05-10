@@ -14,7 +14,7 @@ Filter_mod.m<br />
 - Built filter to avoid deformations at 53.71 modulated frequency.  It guarantees smooth edges in the CS modulating transitions. <br />
 
 Fun_myfilters.m<br />
-- Filter made by VRCarva (https://github.com/vrcarva) based on EEG_lab: <br />
+- Filter made by VRCarva (https://github.com/vrcarva) based on EEG_lab (https://sccn.ucsd.edu/eeglab/index.php) <br />
    
 Pre_processing.m<br />
 - Define sound and behavior epochs<br />
