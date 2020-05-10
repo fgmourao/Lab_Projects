@@ -302,7 +302,7 @@ caxis([.3 .8])
 
 clear ('ch','chs','ch_compare','t')
 
-%% Cut Time vectors - pre behavior and behavior events. Ignore "pos" period
+%% Cut Time periods - pre behavior and behavior events. Ignore "pos" period
 
 % Time index -->  behavior epoch begins / ends
 
@@ -341,6 +341,8 @@ for ii = 1:length(hilb.behavior.delta_phase)*length(hilb.behavior.delta_phase)
     
     end
 end
+
+clear('ii', 'jj', 'temp')
 
 %% Average behavior epochs and total sessions
 

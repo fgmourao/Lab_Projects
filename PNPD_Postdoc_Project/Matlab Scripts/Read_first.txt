@@ -1,19 +1,20 @@
-# Matlab Scripts
+# Matlab Scripts / Functions
 
 Project: NEURAL DYNAMICS DURING AUDITORY FEAR CONDITIONING
 
 Main.m<br />
-- Call the function/scripts<br />
+- Call the functions/scripts<br />
 - Make some plots<br />
 
 Extracting_LFPs_and_Events.m<br />
 - Extract and save data from Intan/Open Ephys:  *.continuous and  *.events<br />
 - Required function: load_open_ephys_data.m (https://github.com/open-ephys/analysis-tools)<br />
 
-F_filter.m<br />
-- It filters the signal by two options: <br />
-   _ Filter with parameters defined manually. Matlab buil function: filtfilt.m<br />
-   _ Define parameters to 'fun_myfilters.m'.  Filter made by VRCarva (https://github.com/vrcarva) based on EEG_lab: <br />
+Filter_mod.m<br />
+- Built filter to avoid deformations at 53.71 modulated frequency.  It guarantees smooth edges in the CS modulating transitions. <br />
+
+Fun_myfilters.m<br />
+- Filter made by VRCarva (https://github.com/vrcarva) based on EEG_lab: <br />
    
 Pre_processing.m<br />
 - Define sound and behavior epochs<br />
@@ -21,6 +22,7 @@ Pre_processing.m<br />
 - Estimate the CS modulating signal from digital pulses<br />
 - Concatenate the modulator signal as channel 1<br />
 - Organize data by trials and by behavior events<br />
+- Filter the data<br />
 - Make some plots<br /> 
 
 sFFT_spectrogram.m

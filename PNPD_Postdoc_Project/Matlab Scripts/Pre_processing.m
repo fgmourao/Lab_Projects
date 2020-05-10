@@ -126,15 +126,55 @@ clear ('picosTSidxs', 'valesTSidxs', 'phiRec', 'xphi', 'yphi', 'qp', 'yrec','ii'
 data.data{1,1} = [data.mod';data.data{1, 1}];
 
 %% Filter Data
-% Filtering by hand (especially the modulated envelope) and/or
+
+% Filtering by hand (especially the modulated envelope): 'filter_mod.m'
+% and/or
 % by the Johnzinho's function (based on EEG_lab): 'fun_myfilters.m' 
 
-% Script:
-F_filter
 
 % The 53.71 modulated frequency it will always be positioned 
 % in "data.data" cell column 2. The other filters will follow 
 % the subsequent columns
+
+
+% Define frequencies cutoff
+
+% filter_mod function
+parameters.filter.modulator       = [51.71 55.71]; % 2
+
+% fun_myfilters function
+parameters.filter.deltacutoff     = [1 3];         % 3
+parameters.filter.thetacutoff1    = [4 6];         % 4
+parameters.filter.thetacutoff2    = [7 12];        % 5
+parameters.filter.alphacutoff     = [13 15];       % 6
+parameters.filter.betacutoff      = [16 31];       % 7
+parameters.filter.lowgammacutoff  = [30 50];       % 8
+parameters.filter.highgammacutoff = [62 100];      % 9
+parameters.filter.extracutoff1    = [150 200];     % 10
+%parameters.filter.extracutoff2    = [1 100];       % 11
+%parameters.filter.extracutoff3    = [300 3000];    % 12
+
+% Each cell --> columns: parameters.filters according to the above order 
+
+for jj = 1:size(data.data{1,1},1)
+    
+    % filter_mod function
+    data.data{1,2}(jj,:) = filter_mod(data.data{1,1}(jj,:),parameters.filter.modulator,parameters.srate);
+    
+    % fun_myfilters function
+    data.data{1,3}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.deltacutoff,'iir','0');
+    data.data{1,4}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.thetacutoff1,'iir','0');
+    data.data{1,5}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.thetacutoff2,'iir','0');    
+    data.data{1,6}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.alphacutoff,'iir','0');
+    data.data{1,7}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.betacutoff,'iir','0');
+    data.data{1,8}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.lowgammacutoff,'iir','0');
+    data.data{1,9}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.highgammacutoff,'iir','0');
+    data.data{1,10}(jj,:) = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.extracutoff1,'iir','0');
+%     data.data{1,11}(jj,:) = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.extracutoff2,'iir','0');
+%     data.data{1,12}(jj,:) = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.modulator,'iir','0');   
+
+end
+
 
 %% Organizing Trial Data - Considering the entire trial period
 
@@ -225,9 +265,9 @@ data.events.behavior.TS_LFPindex = round(data.events.behavior.TS_LFPindex./param
 % Trial period in seconds. Considering the time of the biggest event
 parameters.behavior.trialperiod = ceil(max(data.events.behavior.TS_LFPsec(:,2)-data.events.behavior.TS_LFPsec(:,1))); 
 % Pre behavior
-parameters.behavior.Tpre        = 3; % (seconds)
+parameters.behavior.Tpre        = 5; % (seconds)
 % Pos behavior
-parameters.behavior.Tpos        = 3; % (seconds)
+parameters.behavior.Tpos        = 5; % (seconds)
 % Number of behavior events
 parameters.behavior.NTrials     = length(data.events.behavior.TS_LFPsec); 
 
@@ -281,5 +321,5 @@ data.time_behavior = linspace(-parameters.behavior.Tpre,parameters.behavior.tria
 
 clear ('totalsamples','ii', 'jj', 'FileLoaded', 'Path', 'MinTime', 'toRemove')
 
-%% last update 18/04/2020 - 23:46am
+%% last update 10/05/2020 - 00:26am
 %  listening: Thom Yorke - All for the best

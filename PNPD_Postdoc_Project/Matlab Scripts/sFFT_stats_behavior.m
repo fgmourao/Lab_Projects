@@ -43,7 +43,7 @@ short_fft.behavior.stats = cell(5, size(short_fft.behavior.freq2plot,2));
 % loop over frequencies
 for ii = 1:size(short_fft.behavior.freq2plot,2)
     
-closestfreq = dsearchn(short_fft.freq,short_fft.behavior.freq2plot{ii}');
+closestfreq = dsearchn(short_fft.freq,short_fft.behavior.freq2plot{1,ii}');
 
 % Mean
 short_fft.behavior.stats{1,ii} = squeeze(nanmean(nanmean(abs(short_fft.behavior.data_trials(closestfreq,:,:,:)),1),4))';
@@ -67,10 +67,10 @@ clear('closestfreq','ii','steps')
 ch = 2:17;
 
 % select the frequency range
-fr = 1;
+fr = 2;
 
 % Time to plot
-t = [ -2 20];
+t = [ -3 10];
 
 figure
 %suptitle({'Mean Power Spectrum over time via short-window FFT';['(window = ' num2str(short_fft.behavior.timewin./1000) 's' ' - ' 'overlap = ' num2str(short_fft.behavior.overlap) '%)'];[]}) 
@@ -89,7 +89,7 @@ for ii = 1:length(ch)
     %plot([30 30],[30 max(short_fft.behavior.stats{1, fr}(ch(ii),:))],'k--')
     xlabel('Time (s)','FontSize',14), ylabel('Energy','FontSize',14)
     
-    %xlim(t)
+    xlim(t)
 
     axis square
     legend('SEM','Mean','location','northeastoutside')

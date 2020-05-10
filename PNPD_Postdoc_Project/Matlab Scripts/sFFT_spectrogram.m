@@ -16,7 +16,7 @@ short_fft.timewin    = 5200; % in ms
 short_fft.timewinpnts  = round(short_fft.timewin/(1000/parameters.srate));
 
 % Number of overlap samples
-short_fft.overlap = 90;
+short_fft.overlap = 95;
 short_fft.noverlap = floor(short_fft.overlap*0.01*short_fft.timewinpnts);
 
 % nFFT

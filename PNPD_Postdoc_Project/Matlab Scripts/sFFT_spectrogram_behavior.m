@@ -38,6 +38,8 @@ short_fft.time_idx(:,4) = dsearchn(short_fft.time',(short_fft.time_idx_t(:,2) + 
 
 % behavior epochs
 short_fft.behavior.time_idx_t = (data.events.behavior.TS_LFPsec(:));
+dsearchn(short_fft.time',short_fft.behavior.time_idx_t);
+
 short_fft.behavior.time_idx(:,2:3) = reshape(dsearchn(short_fft.time',short_fft.behavior.time_idx_t),length(data.events.behavior.TS_LFPsec),2);
 short_fft.behavior.time_idx_t = reshape(short_fft.behavior.time_idx_t,length(data.events.behavior.TS_LFPsec),2);  % just to keep the same format m x n
 
@@ -48,7 +50,7 @@ short_fft.behavior.time_idx(:,1) = dsearchn(short_fft.time',(short_fft.behavior.
 short_fft.behavior.time_idx(:,4) = dsearchn(short_fft.time',(short_fft.behavior.time_idx_t(:,2) + parameters.behavior.Tpos));
 
 % Trial period in seconds. Considering the time of the biggest event
-short_fft.behavior.trialperiod = dsearchn(short_fft.time',parameters.behavior.trialperiod);
+%short_fft.behavior.trialperiod = dsearchn(short_fft.time',parameters.behavior.trialperiod);
 
 
 %% Organizing trials data during behavior period from spectrogram 
@@ -67,7 +69,7 @@ end
 short_fft.behavior.data_trials(short_fft.behavior.data_trials==0) = nan;
 
 % Time vector to plot
-short_fft.behavior.time_trials = (linspace(-parameters.behavior.Tpre,short_fft.behavior.trialperiod + parameters.behavior.Tpos,size(short_fft.behavior.data_trials,2)));
+short_fft.behavior.time_trials = (linspace(-parameters.behavior.Tpre,parameters.behavior.trialperiod + parameters.behavior.Tpos,size(short_fft.behavior.data_trials,2)));
 
 
 
@@ -109,12 +111,12 @@ clear ('temp','ii','jj')
 %% Plot to check - Pre and pos behavior period
 
 % Choose channel
-ch = 11;
+ch = 16;
 
 %Define frequencies to plot in each subplot
 steps = diff(short_fft.freq); % according to the fft time window
 
-freq2plot = 1:steps(1):70;
+freq2plot = 40:steps(1):70;
 closestfreq = dsearchn(short_fft.freq,freq2plot');
 
 %Define time to plot in each subplot
@@ -187,12 +189,12 @@ clear ('ch','steps','freq2plot','closestfreq','time2plot1','time2plot2','z','zp'
 %% Plot to check - change from baseline
 
 % Choose channel
-ch = 11;
+ch = 12;
 
 %Define frequencies to plot in each subplot
 steps = diff(short_fft.freq); % according to the fft time window
 
-freq2plot = 3:steps(1):9;
+freq2plot = 40:steps(1):70;
 closestfreq = dsearchn(short_fft.freq,freq2plot');
 
 %Define time to plot in each subplot
@@ -215,7 +217,7 @@ contourf(short_fft.time,short_fft.freq(closestfreq),abs(short_fft.data(closestfr
 xlabel('Time (s)','FontSize',14), ylabel('Frequency (Hz)','FontSize',14)
 xlim([short_fft.time(1) 600])
 colorbar
-%caxis([0 6.5*10^5])
+%caxis([0 .8*10^5])
 %colorbar('Location','eastoutside','YTick',[]);
 
 
@@ -329,12 +331,12 @@ clear ('ch','steps','freq2plot','closestfreq','time2plot1','time2plot2', 'z', 'z
 ch = 16;
 
 % Time to plot
-t = [ -2 20];
+t = [ -5 10];
 
 %Define frequencies to plot
 steps = diff(short_fft.freq); % frequency steps according to the fft time window
 
-freq2plot = 51.7:steps(1):55.7;
+freq2plot = 50:steps(1):60;
 closestfreq = dsearchn(short_fft.freq,freq2plot');
 
 figure
@@ -353,9 +355,9 @@ for ii=1:parameters.behavior.NTrials
     title(['Trial ', num2str(ii)]);
     colormap jet
     colorbar('Location','eastoutside','YTick',[]);
-    %caxis([0 1.5*10^5])
+    %caxis([0 1.2*10^5])
 
-    %xlim(t)
+    xlim(t)
     
     hold on    
     plot3(0 + zeros(1,length(zp)),freq2plot, zp,'w--','linew',2)
@@ -368,9 +370,9 @@ contourf(short_fft.behavior.time_trials,short_fft.freq(closestfreq),nanmean(abs(
 xlabel('Time (s)','FontSize',14), ylabel('Frequency (Hz)','FontSize',14)
 title('Mean Trials');
 colormap jet
-colorbar('Location','eastoutside','YTick',[]);
-%caxis([0 1.5*10^5])
-%xlim(t)
+colorbar('Location','eastoutside');
+%caxis([0 1.0*10^5])
+xlim(t)
 
 hold on 
 plot3(0 + zeros(1,length(zp)),freq2plot, zp,'w--','linew',2)
