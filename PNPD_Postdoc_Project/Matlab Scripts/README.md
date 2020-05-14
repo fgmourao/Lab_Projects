@@ -54,11 +54,17 @@ Hilbert_phase_Full_Trials.m
 - Required circular-statistics-toolbox  (https://github.com/circstat/circstat-matlab) <br />
 - Make some plots<br /> 
 
-Hilbert_phase_behavior
+Hilbert_phase_behavior.m
 - Phase analyses based on Hilbert Transform. Phase Coherence / Phase lock value (PLV) <br />
 - Performs  analysis  considering only the behavior events<br />
 - Required circular-statistics-toolbox (https://github.com/circstat/circstat-matlab) <br />
 - Make some plots<br /> 
+
+MI_behavior. m
+- Phase-amplitude Cross-frequency coupling measure<br />
+- Performs  analysis  considering only the behavior events<br />
+- Performs  analysis with raw and surrogate values<br />
+- Required functions: ModIndex.m and shuffle_esc.m<br />
 
 Track_3d.m<br /> 
 - Plot electrophysiological parameters as a heat map on the animal's track<br /> 
