@@ -24,7 +24,7 @@ Pre_processing.m<br />
 - Organize data by trials and by behavior events<br />
 - Filter the data<br />
   . Relies on the following functions: filter_mod.m<br />
-  . fun_myfilters.m<br />
+                                                          fun_myfilters.m by VRCarva (https://github.com/vrcarva)<br />
 - Make some plots<br /> 
 
 sFFT_spectrogram.m
