@@ -1,11 +1,20 @@
 
 %% Correlation and Covariance Matrices betwwen channels
 
+% - Performs Correlation and Covariance Matrices betwwen channels 
+%   considering the trial periods
+% - Power Spearman's correlation betwwen channels
+%   considering the trial periods
+
 % by Flavio Mourao. Nucleo de Neurociencias - NNC.
 % email: mourao.fg@gmail.com
 % Universidade Federal de Minas Gerais.
 % Started in:  07/2019
 % Last update: 04/2020
+
+%%
+% First extract the data with: Extracting_LFPs_and_events.m
+% ... then organize the data with the script: Pre_processing.m
 
 %%
 
@@ -113,6 +122,7 @@ end
 % clear ('ch','substrate','filter','goodchannels','all_channels')
 
 %% Power Spearman's correlation over channels - Pre sound and Sound
+%run first : sFFT_spectrogram.m followed by: sFFT_spectrogram_Full_Trials.m
 
 % Choose channels
 ch = 2:17;
@@ -202,3 +212,5 @@ end
 
 %% last update 01/04/2020 - 21:59
 %  listening: Mogwai - D to E
+
+% to do: performs the same analysis over only the behavioral events

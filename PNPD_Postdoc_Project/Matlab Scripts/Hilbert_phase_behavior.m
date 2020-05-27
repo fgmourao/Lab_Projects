@@ -1,6 +1,6 @@
 
 %% Phase analyses based on Hilbert Transform
-%  Considering the behavior events
+%  - Performs analysis considering only the behavior events
 
 % The code relies on the following package:
 % --> circular-statistics-toolbox
@@ -13,10 +13,13 @@
 % Started in:  04/2019
 % Last update: 04/2020
 
+%%
+% First extract the data with: Extracting_LFPs_and_events.m
+% ... then organize the data with the script: Pre_processing.m
+
 %% Run each session sequentially
 
-%%
-% Hilbert Transform
+%% Hilbert Transform
 
 % Loop over channels and make hilbert transform
 
@@ -82,7 +85,12 @@ clear('ii','jj','ll','temp')
 % recording channels (rows 2->17) and CS modulating signal (row 1)
 [X,Y] = meshgrid((1:parameters.nch+1),(1:parameters.nch+1));
 
-% Choose filter column to analyse
+% Choose frequency bands index according to the Pre_processing.m
+
+% 2  - modulator / 3 - delta / 4 - lowtheta / 5 - hightheta
+% 6  - alpha     / 7 - beta  / 8 - lowgamma / 9 - highgamma
+% 10 - extra
+
 ff= 3;
 
 % Initilize variable

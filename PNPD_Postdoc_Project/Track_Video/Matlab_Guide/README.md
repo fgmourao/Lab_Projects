@@ -2,6 +2,7 @@
 
  - Manually extract timestamps from possible behavioral events<br />
 
+
 - Outputs:<br />
        .TS_LFPindex - Events (index) according to the record<br />
        .TS_LFPsec    - Events (in seconds) according to the record<br />
@@ -16,6 +17,8 @@ The code relies on the following functions:<br />
 
  --> load_open_ephys_data.m --> Open *.continuos from Openephys<br />
        https://github.com/open-ephys/analysis-tools<br />
+       
+ --> fun_myfilters.m --> Set of filters by Vinicius Carvalho (https://github.com/vrcarva)<br />
 
 Authors:<br />
 Vinicius Carvalho. Nucleo de Neurociencias NNC.<br />

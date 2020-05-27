@@ -1,5 +1,5 @@
 
-%%  Behavioral Analysis. 
+%% Behavioral Analysis. 
 
 % Files need:
 % - *.csv files imported from Bonsai software

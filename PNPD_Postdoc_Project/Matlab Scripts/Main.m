@@ -1,5 +1,6 @@
 
 %% Main - Analysis and Plots
+%  Call functions/scripts
 
 % by Flavio Mourao. Nucleo de Neurociencias - NNC.
 % email: mourao.fg@gmail.com

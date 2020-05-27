@@ -8,6 +8,11 @@
 % Started in:  04/2020
 % Last update: 04/2020
 
+%%
+% First extract the data with: Extracting_LFPs_and_events.m
+% ... then organize the data with the script: Pre_processing.m
+% and then run: sFFT_spectrogram.m followed by: sFFT_spectrogram_behavior.m
+
 %% Extract the descriptive stats
 
 % Define frequencies cutoff 

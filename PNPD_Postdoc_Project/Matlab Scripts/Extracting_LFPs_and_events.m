@@ -4,7 +4,7 @@ function [data, parameters] = Extracting_LFPs_and_events()
 % Extracting LFPs and Events from Intan/Open Ephys
 
 % - extract, organize and save data from Intan/Open Ephys:  *.continuous and  *.events
-% - Required function: load_open_ephys_data.m (https://github.com/open-ephys/analysis-tools)
+% - The code relies on the following functions : load_open_ephys_data.m (https://github.com/open-ephys/analysis-tools)
 
 % - Option: down sampling data
 

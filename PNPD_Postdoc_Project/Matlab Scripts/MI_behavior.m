@@ -2,9 +2,11 @@
 %% Phase-amplitude Cross-frequency coupling measure
 %  Considering the behavior events
 
+% - Performs analysis with raw and surrogate values
+
 % The code relies on the following functions:
-% --> ModIndex.m
-% --> shuffle_esc.m
+% --> ModIndex.m    - by Adriano Tort, Instituto do Cerebro - Universidade Federal do Rio Grande do Norte
+% --> shuffle_esc.m - by Rafal Bogacz, Angela Onslow, May 2010
 
 % See Tort et al, 2010 -> 10.1152/jn.00106.2010 
 %     Tort et al, 2008 -> 10.1073/pnas.0810524105
@@ -16,6 +18,10 @@
 % Started in:  05/2020
 % Last update: 05/2020
 
+%%
+% First extract the data with: Extracting_LFPs_and_events.m
+% ... then organize the data with the script: Pre_processing.m
+
 %% Run each session sequentially
 
 %% Hilbert Transform
@@ -25,7 +31,7 @@
 % - columns       - > time
 % - 3nd dimension - > behavioral events
 
-% Choose frequency bands index according to F_filter
+% Choose frequency bands index according to the Pre_processing.m
 
 % 2  - modulator / 3 - delta / 4 - lowtheta / 5 - hightheta
 % 6  - alpha     / 7 - beta  / 8 - lowgamma / 9 - highgamma
@@ -65,11 +71,11 @@ MI.behavior.time = (linspace(-parameters.behavior.Tpre,parameters.behavior.trial
 
 clear('ii','jj','ll','temp','f_idx')
 
-%% Cut Time periods - pre behavior and behavior events. Ignore "pos" period
+%% Cut Time periods - pre behavior and during behavior events. Ignore "pos" period
 
 % Time index -->  behavior epoch begins / ends
 
-MI.behavior.time_zero_idx = dsearchn(MI.behavior.time',0'); % time zero index. Behavior Start.
+MI.behavior.time_zero_idx = dsearchn(MI.behavior.time',0); % time zero index. Behavior Start.
 
 for ii = 1:length(data.events.behavior.TS_LFPsec)
 
@@ -141,7 +147,7 @@ MI.behavior.params.ch_phase = 11;
 MI.behavior.params.ch_amp   = 16;
 
 % Define time to analyse
-MI.behavior.params.time2analise = 9;
+MI.behavior.params.time2analise = 5;
 time2samples = MI.behavior.params.time2analise * parameters.srate; % in samples
 
 % Define number number of phase bins 
@@ -320,7 +326,7 @@ MI.behavior.stats.z_MI_value = (MI.behavior.MI_value - (mean(MI.behavior.MI_shuf
 MI.behavior.stats.p_MI_value = 0.5 * erfc(MI.behavior.stats.z_MI_value ./ sqrt(2));
 
 
-clear('jj','ii','nsurrog','numshf','time2samples','before_shuffle','during_shuffle')
+%clear('jj','ii','nsurrog','numshf','time2samples','before_shuffle','during_shuffle')
 
 %% Plot statistical distribuitions
 

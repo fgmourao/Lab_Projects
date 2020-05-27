@@ -9,14 +9,16 @@
 
 % How to do:
 
-% 1) Identify the beginning and the end of trials through the Track Video GUIDE
+% 1) Identify the beginning and the end of trials through GUIDE Video Track 
 % 2) Extract the X and Y coordinates acquired in the Bonsai
-% 3) Choose a channel of interest and run the analyses.
+% 3) Extract the data with: Extracting_LFPs_and_events.m
+%    and then organize the data with the script: Pre_processing.m
+% 3) Choose a channel of interest and run the desire analyses (example: sFFT from spectrogram).
 % 4) Normalize vectors. Usually the video and the record start separately. First the record then the video
 % 5) Perform signal interpolation in order to normalize the number of points
-% 6 To plot:
+% 6) To plot:
 %   - scatter3 -> Simplest option
-%   - cline    -> Third party function. Similar to plot3 but attaches color map
+%   - cline    -> Third party function. Similar to plot3 but attaches heat/color map
 %                 https://la.mathworks.com/matlabcentral/fileexchange/14677-cline
 
 %% Beginning and the end of trials
@@ -39,6 +41,7 @@ behavior.data = data;
 clear('data', 'Header')
 
 %% sFFT from spectrogram 
+%  run sFFT_spectrogram.m first
 
 % Frequency steps according to the fft time window
 steps       = diff(short_fft.freq); 

@@ -8,6 +8,10 @@
 % Last update: 04/2020
 
 %%
+% First extract the data with: Extracting_LFPs_and_events.m
+% ... then organize the data with the script: Pre_processing.m
+
+%%
 
 % Time window
 short_fft.timewin    = 5200; % in ms

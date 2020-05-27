@@ -8,14 +8,21 @@
 % Started in:  04/2020
 % Last update: 04/2020
 
+%%
+% First extract the data with: Extracting_LFPs_and_events.m
+% ... then organize the data with the script: Pre_processing.m
+% and then run: sFFT_spectrogram.m
+
 %% Define indexes from spectrogram - Considering the entire trial period
-%  Trial indexes are extracted for comparison with the periods in which behavioral events occur
 
 % rows -> trials
 % columns 1 -> time before sound epoch 
 % columns 2 -> sound start
 % columns 3 -> sound stop
 % columns 4 -> time after sound epoch
+
+parameters.Tpre        = 30; % pre event in seconds
+parameters.Tpos        = 10; % pos event in seconds
 
 % Sound epochs
 short_fft.time_idx_t      = (data.events.idx_t(:));
@@ -189,7 +196,7 @@ clear ('ch','steps','freq2plot','closestfreq','time2plot1','time2plot2','z','zp'
 %% Plot to check - change from baseline
 
 % Choose channel
-ch = 12;
+ch = 16;
 
 %Define frequencies to plot in each subplot
 steps = diff(short_fft.freq); % according to the fft time window

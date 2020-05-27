@@ -1,4 +1,5 @@
-function [data_filtered] = filter_mod(data,f_cut,srate)
+
+function [data_filtered] = Filter_mod(data,f_cut,srate)
 % Filter using the matlab filt filt function.
 
 % Parameters define by hand.
@@ -14,7 +15,6 @@ function [data_filtered] = filter_mod(data,f_cut,srate)
 
 % - Outputs:
 %   data_filtered
-%   parameters : used parameters
 
 % by Flavio Mourao. Nucleo de Neurociencias - NNC.
 % email: mourao.fg@gmail.com

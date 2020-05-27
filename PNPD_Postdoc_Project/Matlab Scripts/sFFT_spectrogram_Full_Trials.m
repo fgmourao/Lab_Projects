@@ -8,6 +8,11 @@
 % Started in:  07/2019
 % Last update: 04/2020
 
+%%
+% First extract the data with: Extracting_LFPs_and_events.m
+% ... then organize the data with the script: Pre_processing.m
+% and then run: sFFT_spectrogram.m
+
 %% Define indexes from spectrogram - Considering the entire trial period
 
 % rows -> trials
