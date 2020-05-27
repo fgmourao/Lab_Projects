@@ -12,7 +12,8 @@ The relevance of sensory cues constantly changes in natural environments, and th
 
 Much of the recent effort to understand the underpinnings of this constructive nature of perception has been put into the modulation exerted by the cortex into the thalamus and/or limbic areas. However, some features of the incoming stimuli are processed in the very first stages of the sensory pathway, some of them being the target of robust efferent projections from higher-level processing areas and being subjected to task-related plastic changes. 
 
-In this sense, we propose to analyze the relationships between different brain substrates along the acoustic pathway involved in different stages of auditory perception.
+In this sense, we propose to analyze the relationships between multiple brain substrates along the acoustic pathway involved in different stages of auditory perception.
+
 
 Previous papers : <br />
 Lockmann & Mourao, 2017         ->  https://doi.org/10.1152/jn.00293.2017<br />
