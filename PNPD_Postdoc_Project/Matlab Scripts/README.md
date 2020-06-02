@@ -47,7 +47,7 @@ sFFT_stats_behavior.m
 - Make some plots<br />
 
 CorCov.m
-- Performs Correlation and Covariance Matrices betwwen channels considering the trial periods - sound on/off<br />
+- Performs Correlation and Covariance Matrices between channels considering the trial periods - sound on/off<br />
 - Performs Power Spearman's correlation betwwen channels considering the trial periods - sound on/off<br />
 - Make some plots<br /> 
 
