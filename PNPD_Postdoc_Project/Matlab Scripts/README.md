@@ -63,20 +63,26 @@ Hilbert_phase_behavior.m
 - The code relies on the following package: circular-statistics-toolbox  (https://github.com/circstat/circstat-matlab) <br />
 - Make some plots<br /> 
 
-MI_behavior. m
+MI_behavior.m
 - Phase-amplitude Cross-frequency coupling measure<br />
 - Performs analysis  considering only the behavior events<br />
 - Performs analysis with raw and surrogate values<br />
 - The code relies on the following functions: ModIndex.m and shuffle_esc.m<br />
 - Make some plots<br /> 
 
-Comodulation_MI_behavior. m
+Comodulation_MI_behavior.m
 - Phase-amplitude Cross-frequency coupling measure<br />
 - Performs comodulation considering only the behavior events<br />
-- Script based on the Hindiael Belchior & Adriano Tort script<br />
+- Code based on the Hindiael Belchior & Adriano Tort script<br />
   Instituto do Cerebro - Universidade Federal do Rio Grande do Norte<br />
 - The code relies on the following functions: ModIndex.m <br />
 - Make some plots<br /> 
+
+Granger Prediction.m
+- Established measure of directed functional connectivity <br />
+- Performs analysis considering only the behavior events<br />
+- The code relies on the following package: BSMART: A Matlab/C Toolbox for Analyzing Brain Circuits (https://brain-smart.org/)<br />
+- Code based on the Analyzing Neural Time Series Data: Theory and Practice by Mike X Cohen<br />
 
 Track_3d.m<br /> 
 - Plot electrophysiological parameters as a heat map on the animal's track<br /> 
