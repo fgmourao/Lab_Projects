@@ -17,7 +17,8 @@ In this sense, we propose to analyze the relationships between multiple brain su
 
 Previous papers : <br />
 Lockmann & Mourao, 2017         ->  https://doi.org/10.1152/jn.00293.2017<br />
-Amaral-Junior & Mourao, 2019   ->  https://doi.org/10.3389/fnins.2019.01193<br />
+Amaral-Junior & Mourao, 2019    ->  https://doi.org/10.3389/fnins.2019.01193<br />
+Simoes & Mourao, 2020.          ->  https://doi.org/10.1016/j.neulet.2020.135311
 
 ![https://github.com/fgmourao/Lab_Projects/blob/master/PNPD_Postdoc_Project/Images/1.png](https://github.com/fgmourao/Lab_Projects/blob/master/PNPD_Postdoc_Project/Images/1.png)
 
