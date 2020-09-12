@@ -10,7 +10,7 @@
 % - Organize data by trials and by behavior events
 % - Filter the data<br />
 %   . Relies on the following functions: filter_mod.m
-%   . fun_myfilters.m
+%                                        fun_myfilters.m
 
 
 %                               - CHANNELS MAP - 
@@ -135,7 +135,8 @@ data.data{1,1} = [data.mod';data.data{1, 1}];
 
 % Filtering by hand (especially the modulated envelope): 'filter_mod.m'
 % and/or
-% by the Johnzinho's function: 'fun_myfilters.m' 
+% by the Johnzinho's function: 'fun_myfilters.m'
+% Set of filters by VRCarva (https://github.com/vrcarva)
 
 
 % The 53.71 modulated frequency it will always be positioned 
@@ -146,7 +147,7 @@ data.data{1,1} = [data.mod';data.data{1, 1}];
 % Define frequencies cutoff
 
 % filter_mod function
-parameters.filter.modulator       = [46.71 59.71]; % 2
+parameters.filter.modulator       = [51.71 55.71]; % 2
 
 % fun_myfilters function
 parameters.filter.deltacutoff     = [1 3];         % 3
@@ -156,7 +157,7 @@ parameters.filter.alphacutoff     = [13 15];       % 6
 parameters.filter.betacutoff      = [16 31];       % 7
 parameters.filter.lowgammacutoff  = [30 50];       % 8
 parameters.filter.highgammacutoff = [62 100];      % 9
-parameters.filter.extracutoff1    = [150 200];     % 10
+parameters.filter.extracutoff1    = [80 140];     % 10
 %parameters.filter.extracutoff2    = [1 100];       % 11
 %parameters.filter.extracutoff3    = [300 3000];    % 12
 
@@ -165,7 +166,7 @@ parameters.filter.extracutoff1    = [150 200];     % 10
 for jj = 1:size(data.data{1,1},1)
     
     % filter_mod function
-    data.data{1,2}(jj,:) = filter_mod(data.data{1,1}(jj,:),parameters.filter.modulator,parameters.srate);
+    data.data{1,2}(jj,:) = Filter_mod(data.data{1,1}(jj,:),parameters.filter.modulator,parameters.srate);
     
     % fun_myfilters function
     data.data{1,3}(jj,:)  = fun_myfilters(data.data{1,1}(jj,:),parameters.srate,parameters.filter.deltacutoff,'iir','0');
@@ -197,6 +198,10 @@ data.events.behavior.TS_LFPsec(toRemove,:)   = [];
 data.events.behavior.TSframes(toRemove,:)    = [];
 data.events.behavior.TSseconds(toRemove,:)   = [];
 
+% correcting TS_LFPsec  to zero if the record has started after a viewing time
+data.events.behavior.TS_LFPsec = data.events.behavior.TS_LFPsec - min(data.timev_raw);
+
+
 %%
 % Correcting timestamps according to the downsamplig
 % Check if it is necessary !!!
@@ -204,12 +209,13 @@ data.events.behavior.TSseconds(toRemove,:)   = [];
 
 data.events.behavior.TS_LFPindex = round(data.events.behavior.TS_LFPindex./parameters.downsampling);
 
-%% Set the parameters for each behavior epoch
+%% Organizing data - Considering only the behavioral events
 
+% Set the parameters for each behavior epoch
 % Trial period in seconds. Considering the time of the biggest event
 parameters.behavior.trialperiod = ceil(max(data.events.behavior.TS_LFPsec(:,2)-data.events.behavior.TS_LFPsec(:,1))); 
 % Pre behavior
-parameters.behavior.Tpre        = 5; % (seconds)
+parameters.behavior.Tpre        = 10; % (seconds)
 % Pos behavior
 parameters.behavior.Tpos        = 5; % (seconds)
 % Number of behavior events
@@ -266,63 +272,63 @@ data.time_behavior = linspace(-parameters.behavior.Tpre,parameters.behavior.tria
 clear ('totalsamples','ii', 'jj', 'FileLoaded', 'Path', 'MinTime', 'toRemove')
 
 %% Organizing Trial Data - Considering the entire trial period
-% 
-% % Set the parameters for each epoch
-% 
-% parameters.trialperiod = 30; % trial period in seconds
-% parameters.Tpre        = 30; % pre trial in seconds
-% parameters.Tpos        = 10; % pos trial in seconds
-% parameters.NTrials     =  5; % number of trials
-% 
-% 
-% % Cell columns --> frequencies cutoff according " F_filter.m "
-% % in each cell
-% % - rows        - channels
-% % - columns     - time
-% % - 3 dimension - trials
-% 
-% % Initializing trial periods
-% data.data_trials     = cell(parameters.NTrials,length(data.data));
-% 
-% % Cutting time windows...
-% for ii = 1:size(data.data,2)
-%     for jj = 1:size(data.events.idx,1)       
-%          data.data_trials{jj,ii} = data.data{1,ii}(:,data.events.idx(jj,1) - parameters.Tpre * parameters.srate : data.events.idx (jj,2) + parameters.Tpos * parameters.srate);  
-%     end   
-% end
-% 
-% % Normalizing total samples with "not a numbers (nan)" in each trial 
-% % to the exact time period according to the sample rate.
-% 
-% totalsamples  = max(max(cellfun(@length,data.data_trials)));
-% 
-% for ii = 1:size(data.data_trials,2)
-%     for jj = 1:size(data.data_trials,1)        
-%         if length(data.data_trials{jj,ii}) < totalsamples
-%            data.data_trials{jj,ii}(:,end:totalsamples) = nan;
-%         else
-%            continue
-%         end
-%     end
-% end
-% 
-% clear ('totalsamples')
-% 
-% % Concatenate trials in 3 dimentions
-% 
-% for ii = 1:size(data.data,2)
-%     data.data_trials{1,ii} = cat(3,data.data_trials{:,ii});
-% end
-% 
-% data.data_trials(2:end,:) = [];
-% 
-% % Setting Time
-% 
-% % Initializing time trial vectors
-% data.time_trials = linspace(-parameters.Tpre,parameters.trialperiod+parameters.Tpos,length(data.data_trials{1,1}));
-% 
-% 
-% clear ('totalsamples','ii', 'jj')
+
+% Set the parameters for each epoch
+
+parameters.trialperiod = 30; % trial period in seconds
+parameters.Tpre        = 30; % pre trial in seconds
+parameters.Tpos        = 10; % pos trial in seconds
+parameters.NTrials     =  5; % number of trials
+
+
+% Cell columns --> frequencies cutoff according " F_filter.m "
+% in each cell
+% - rows        - channels
+% - columns     - time
+% - 3 dimension - trials
+
+% Initializing trial periods
+data.data_trials     = cell(parameters.NTrials,length(data.data));
+
+% Cutting time windows...
+for ii = 1:size(data.data,2)
+    for jj = 1:size(data.events.idx,1)       
+         data.data_trials{jj,ii} = data.data{1,ii}(:,data.events.idx(jj,1) - parameters.Tpre * parameters.srate : data.events.idx (jj,2) + parameters.Tpos * parameters.srate);  
+    end   
+end
+
+% Normalizing total samples with "not a numbers (nan)" in each trial 
+% to the exact time period according to the sample rate.
+
+totalsamples  = max(max(cellfun(@length,data.data_trials)));
+
+for ii = 1:size(data.data_trials,2)
+    for jj = 1:size(data.data_trials,1)        
+        if length(data.data_trials{jj,ii}) < totalsamples
+           data.data_trials{jj,ii}(:,end:totalsamples) = nan;
+        else
+           continue
+        end
+    end
+end
+
+clear ('totalsamples')
+
+% Concatenate trials in 3 dimentions
+
+for ii = 1:size(data.data,2)
+    data.data_trials{1,ii} = cat(3,data.data_trials{:,ii});
+end
+
+data.data_trials(2:end,:) = [];
+
+% Setting Time
+
+% Initializing time trial vectors
+data.time_trials = linspace(-parameters.Tpre,parameters.trialperiod+parameters.Tpos,length(data.data_trials{1,1}));
+
+
+clear ('totalsamples','ii', 'jj')
 
 %% last update 10/05/2020 - 00:26am
 %  listening: Thom Yorke - All for the best

@@ -16,7 +16,7 @@
 % email: mourao.fg@gmail.com
 % Universidade Federal de Minas Gerais
 % Started in:  05/2020
-% Last update: 05/2020
+% Last update: 09/2020
 
 %%
 % First extract the data with: Extracting_LFPs_and_events.m
@@ -40,7 +40,7 @@
 % 1st index - > phase
 % 2nd index - > amplitude
 
-f_idx = [4 2];
+f_idx = [4 10];
 
 % Loop over channels and make hilbert transform
 % Initializing with NaN
@@ -133,14 +133,12 @@ clear( 'ii','jj','temp')
 % - rows          - > events
 % - 1st column    - > before onset
 % - 2nd column    - > post onset
-% - 3nd dimension - > rearrangements
 
 % MeanAmp 
 % - rows          - > events
 % - coluns        - > amplitude distribution over phase bins
 % - 3nd dimension - > 1st: before onset
 %                     2nd: post onset
-% - 3nd dimension - > rearrangements
 
 % Choose channels
 MI.behavior.params.ch_phase = 11;
@@ -323,10 +321,12 @@ MI.behavior.stats.z_MI_shuffle_values = zscore(MI.behavior.MI_shuffle_values);
 MI.behavior.stats.z_MI_value = (MI.behavior.MI_value - (mean(MI.behavior.MI_shuffle_values,3)))./std(MI.behavior.MI_shuffle_values,[],3);
 
 % p values
-MI.behavior.stats.p_MI_value = 0.5 * erfc(MI.behavior.stats.z_MI_value ./ sqrt(2));
+%MI.behavior.stats.p_MI_value = 0.5 * erfc(MI.behavior.stats.z_MI_value ./ sqrt(2));
+MI.behavior.stats.p_MI_value = normcdf(MI.behavior.stats.z_MI_value);
+%MI.behavior.stats.p_MI_value = erfc(- MI.behavior.stats.z_MI_value ./ sqrt(2))./2;
 
 
-%clear('jj','ii','nsurrog','numshf','time2samples','before_shuffle','during_shuffle')
+clear('jj','ii','nsurrog','numshf','time2samples','before_shuffle','during_shuffle')
 
 %% Plot statistical distribuitions
 
@@ -409,5 +409,255 @@ legend({'\fontsize{12} Distribuition';'\fontsize{12}Observed'},'box','off')%,'lo
 
 clear ('ii','jj','count','h','figx','figy');
 
-%% last update 14/05/2020 - 11:37am
-%  listening: The Smiths - Stretch Out and Wait
+%% Phase-amplitude cross-frequency coupling measure
+ % Continuous time course with overlap
+ 
+% MI_value_timewin 
+% - cell          - > first column: before / second column: during
+%                     lines: behavioral events
+% - each cell     - > lines: channels
+%                     columns: time 
+
+% MeanAmp 
+% - cell          - > first column: before / second column: during
+%                     lines: behavioral events
+% - each cell     - > lines: channels
+%                     columns: amplitude mean values
+% - 3nd dimension - > time 
+
+
+% Time window
+MI.behavior.params.time_window     =  2; % sec.
+MI.behavior.params.time_window_idx = round(MI.behavior.params.time_window * parameters.srate);
+
+% Overlap
+MI.behavior.params.timeoverlap    = .9; % percentage
+overlap = round((MI.behavior.params.time_window_idx)-(MI.behavior.params.timeoverlap * MI.behavior.params.time_window_idx));
+
+% Time epochs
+% Before
+
+time2save_idx_1 = (1:overlap:length(MI.behavior.data_before{1,1}) - MI.behavior.params.time_window_idx);
+
+% During
+% Define idx without NaN`s length
+
+time2save_idx_2 = cell(size(MI.behavior.data_during{1,1},3),1);
+for ii = 1:size(MI.behavior.data_during{1,1},3)    
+    temp = MI.behavior.data_during{1,2}(:,:,ii);    
+    nonan = reshape(temp(~isnan(temp)),parameters.nch+1,[]);
+    time2save_idx_2{ii,1} = (1:overlap:length(nonan) - MI.behavior.params.time_window_idx);
+end
+
+
+% Define number number of phase bins 
+MI.behavior.params.nbin = 20; 
+
+% variable not centered in the phase bin (rad)
+MI.behavior.params.position = zeros(1,MI.behavior.params.nbin); 
+
+MI.behavior.params.winsize = 2*pi/MI.behavior.params.nbin;
+
+for jj = 1:MI.behavior.params.nbin
+    MI.behavior.params.position(jj) = -pi+(jj-1)*MI.behavior.params.winsize;
+end
+
+
+
+% Modulation Index for each behavior event
+
+% Before
+
+for ii = 1:size(MI.behavior.data_during{1,1},1)
+    for jj = 1:size(MI.behavior.data_during{1,1},3)
+        for ll = 1:length(time2save_idx_1)
+        
+        [MI.behavior.MI_value_timewin{jj,1}(ii,ll),MI.behavior.MeanAmp_timewin{jj,1}(ii,:,ll)] = ModIndex(MI.behavior.data_before{1,1}(ii,time2save_idx_1(ll):(time2save_idx_1(ll) + MI.behavior.params.time_window_idx -1),jj), MI.behavior.data_before{1,2}(ii,time2save_idx_1(ll):(time2save_idx_1(ll) + MI.behavior.params.time_window_idx -1),jj),MI.behavior.params.position);
+            
+        end
+    end
+end 
+
+
+% During
+
+for ii = 1:size(MI.behavior.data_during{1,1},1)
+    for jj = 1:size(MI.behavior.data_during{1,1},3)
+        for ll = 1:length(time2save_idx_2{jj})
+        
+        [MI.behavior.MI_value_timewin{jj,2}(ii,ll),MI.behavior.MeanAmp_timewin{jj,2}(ii,:,ll)] = ModIndex(MI.behavior.data_during{1,1}(ii,time2save_idx_2{jj}(ll):(time2save_idx_2{jj}(ll) + MI.behavior.params.time_window_idx -1),jj), MI.behavior.data_during{1,2}(ii,time2save_idx_2{jj}(ll):(time2save_idx_2{jj}(ll) + MI.behavior.params.time_window_idx -1),jj),MI.behavior.params.position);
+
+        end
+    end
+end 
+
+
+% Correct length for time vectors.
+% Estimate without NaN`s
+
+% Time vector
+
+nonan_len = zeros(1,size(data.events.behavior.TSseconds,1));
+
+for ii = 1:size(data.events.behavior.TSseconds,1)
+    
+    temp = MI.behavior.MI_value_timewin{ii,2}(2,:); % from channel 2! channel 1 is modulated signal
+    nonan_len(ii) = length(temp(~isnan(temp)));
+    
+    MI.behavior.MI_value_timewin_time_vector{ii,1} = linspace(-parameters.behavior.Tpre,-1,size(MI.behavior.MI_value_timewin{1,1},2));
+    MI.behavior.MI_value_timewin_time_vector{ii,2} = linspace(0,data.events.behavior.TSseconds(ii,2) - data.events.behavior.TSseconds(ii,1),nonan_len(ii));
+end
+
+clear ('overlap','nonan','temp','time2save_idx_1','time2save_idx_2','ii','jj','ll','temp1','nonan_len')
+
+%% Plot MI values over time for each behaviour event
+
+% Choose channel to plot
+ch = 3;
+
+% Set Figure
+figure
+set(gcf,'color','white')
+
+suptitle({[];'Phase-Amplitude coupling';['(Sliding window = ' num2str(MI.behavior.params.time_window) 's' ' - ' 'overlap = ' num2str(MI.behavior.params.timeoverlap*100) '%)']}) 
+
+
+for ii= 1:size(MI.behavior.MI_value_timewin,1)
+    subplot(1,size(MI.behavior.MI_value_timewin,1),ii)
+    % Concatenate period to plot
+    plot([MI.behavior.MI_value_timewin_time_vector{ii,1} MI.behavior.MI_value_timewin_time_vector{ii,2}], [MI.behavior.MI_value_timewin{ii,1}(ch,:) MI.behavior.MI_value_timewin{ii,2}(ch,:)], 'Color','[0.6350, 0.0780, 0.1840]','linew',2)
+    hold all
+    plot([0 0],[0 1],'k--')
+    ylim([0 0.015])
+    
+    title(['Trial ',num2str(ii)])
+    xlabel('Time (s)')
+    ylabel('Modulation Index')
+    axis square
+    box off
+
+end
+
+    %legend('Theta (4–10 Hz) & Gamma (80–140 Hz)','location','southoutside')
+    %legend boxoff
+
+clear ('ii','ch')
+
+%% Video MI
+
+% Choose channel
+MI.video.ch = 3;
+
+% choose trial
+MI.video.trl = 1;
+
+% concatenate period
+MI.video.data_2plot = [MI.behavior.MI_value_timewin{MI.video.trl,1}(MI.video.ch,:) MI.behavior.MI_value_timewin{MI.video.trl,2}(MI.video.ch,:)];
+MI.video.time_2plot = [MI.behavior.MI_value_timewin_time_vector{MI.video.trl,1} MI.behavior.MI_value_timewin_time_vector{MI.video.trl,2}];
+
+% Mov Mean to smooth just to smoth signal
+MI.video.data_2plot_filter = smooth(MI.video.time_2plot,MI.video.data_2plot,15);
+
+% set video time idx
+MI.video.vid_min = -10; % check pre trial time defined before
+MI.video.vid_min_idx = dsearchn(MI.video.time_2plot',MI.video.vid_min);
+
+MI.video.vid_max     = 10; % check trial time defined before
+MI.video.vid_max_idx = dsearchn(MI.video.time_2plot',MI.video.vid_max);
+
+% Define Plot (parameters for high resolution)
+figure('units', 'pixels', 'position', [0 0 1920 1080]); clf
+set(gcf,'color','white')
+axis([-10,10,0,0.015])
+
+set(gca,'XColor','w','Fontsize',14)
+
+%xlabel('Time (s)')
+ylabel('Modulation Index')
+axis square
+hold all
+box off
+
+plot([8 10],[0.0005 0.0005],'k','linew',2)
+plot([0 0],[0 0.015],'k--','linew',.5)
+
+h = animatedline;
+
+h.Color = [0.6350, 0.0780, 0.1840];
+h.LineWidth = 3;
+
+% setup movie
+mov = VideoWriter('MI','Uncompressed AVI');
+
+open(mov)
+
+tic
+for ii = 1:length(MI.video.vid_min_idx:MI.video.vid_max_idx)
+    
+    addpoints(h,MI.video.time_2plot(ii),MI.video.data_2plot_filter(ii));
+    drawnow
+    pause (0.220)
+    
+    F = getframe(gcf);
+    writeVideo(mov,F);
+end
+toc
+
+
+close(mov)
+
+clear('F','h','ii','mov')
+
+%% Video amplitude mean values
+
+% Channel and trial define before in Video MI over time
+
+% Concatenate period
+MI.video.MeanAmp_2plot = squeeze(cat(3,MI.behavior.MeanAmp_timewin{MI.video.trl,1}(MI.video.ch,:,:), MI.behavior.MeanAmp_timewin{MI.video.trl,2}(MI.video.ch,:,:)));
+
+% Define Plot (parameters for high resolution)
+figure('units', 'pixels', 'position', [0 0 1920 1080]); clf
+set(gcf,'color','w');
+
+% Set x axis
+xvalue1 = (rad2deg(MI.behavior.params.position) + 180)';
+xvalue2 = (xvalue1 + 360);
+
+% Define pre values as zeros
+b = bar(cat(1, xvalue1, xvalue2),zeros(length(xvalue1) * 2,1));
+b.FaceColor = [0.8, 0.8, 0.8];
+axis([0,xvalue2(end),0,0.15])
+
+ylabel('\fontsize{14} Amplitude')
+xlabel('\fontsize{14} Phase')
+set(gca,'Fontsize',14)
+
+axis square
+box off
+
+mov = VideoWriter('amp','Uncompressed AVI');
+open(mov)
+
+tic
+for  ii = 1:size(MI.video.MeanAmp_2plot,2)
+     
+     % catch values
+     amp = cat(1,MI.video.MeanAmp_2plot(:,ii)./sum(MI.video.MeanAmp_2plot(:,ii)), MI.video.MeanAmp_2plot(:,ii)./sum(MI.video.MeanAmp_2plot(:,ii)));
+     
+     % set values in each iteneration
+     set(b,'YData',amp)
+     
+     pause(0.110)
+     
+     F = getframe(gcf);
+     writeVideo(mov,F);
+      
+end
+toc
+
+close(mov)
+
+clear('amp','xvalue1','xvalue2','b','F','h','ii','mov')
+
+%% last update 12/09/2020 - 18:21am
+%  listening: beck - true love will find you in the end
