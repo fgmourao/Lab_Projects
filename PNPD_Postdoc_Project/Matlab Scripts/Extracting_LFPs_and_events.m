@@ -34,7 +34,7 @@ function [data, parameters] = Extracting_LFPs_and_events()
 % email: mourao.fg@gmail.com
 % Universidade Federal de Minas Gerais. 
 % Started in:  11/2019
-% Last update: 04/2020
+% Last update: 09/2020
 
 %%
 % Load files (*.continuous -> LFP and *.events -> Events)
@@ -114,7 +114,8 @@ for jj = 1:length(parameters.FilesLoaded)
                 [data_temp, data.timev_raw, info] = load_open_ephys_data(fullFileName);
                 data.raw = detrend(data_temp, 'constant');  % Raw data           
                 parameters.header = info.header;            % Data File Header
-        
+                parameters.srate  = info.header.sampleRate;
+                
         elseif  jj == 1 && parameters.downsampling > 1
             
                 % Load datafiles (*.continuous), timestamps e record info.
@@ -187,5 +188,5 @@ fprintf('\n Done. \n');
 
 end
 
-%% last update 08/04/2020 - 21:19
-%  listening: Elliott Smith - Angeles
+%% last update 14/09/2020 - 2:46
+%  listening: Mogwai - Ghost Nets
