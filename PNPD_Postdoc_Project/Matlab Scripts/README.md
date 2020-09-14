@@ -46,6 +46,10 @@ sFFT_stats_behavior.m
 - Performs descriptive analysis from the spectrogram considering only the behavior events<br />
 - Make some plots<br />
 
+p_welch.m
+- Welch power spectral density estimate by matlab built function pwelch <br />
+- Performs descriptive analysis considering only the behavior events<br />
+
 CorCov.m
 - Performs Correlation and Covariance Matrices between channels considering the trial periods - sound on/off<br />
 - Performs Power Spearman's correlation betwwen channels considering the trial periods - sound on/off<br />
