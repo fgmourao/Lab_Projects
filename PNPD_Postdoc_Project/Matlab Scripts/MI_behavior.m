@@ -40,7 +40,7 @@
 % 1st index - > phase
 % 2nd index - > amplitude
 
-f_idx = [4 10];
+f_idx = [4 9];
 
 % Loop over channels and make hilbert transform
 % Initializing with NaN
@@ -249,7 +249,7 @@ count = 1;
 for ii = 2:2:parameters.behavior.NTrials*2
     
     subplot(parameters.behavior.NTrials,2,ii)
-    b4 = bar([xvalue1 xvalue2],[MI.behavior.MeanAmp(count,:,2)./sum(MI.behavior.MeanAmp(count,:,2)) MI.behavior.MeanAmp(count,:,2)./sum(MI.behavior.MeanAmp(count,:,2))]);
+    b4 = bar([xvalue1 xvalue2],[MI.behavior.MeanAmp(count,:,2) MI.behavior.MeanAmp(count,:,2)]);
     b4.FaceColor = [0.8, 0.8, 0.8];
     
     if count == 1
@@ -322,7 +322,7 @@ MI.behavior.stats.z_MI_value = (MI.behavior.MI_value - (mean(MI.behavior.MI_shuf
 
 % p values
 %MI.behavior.stats.p_MI_value = 0.5 * erfc(MI.behavior.stats.z_MI_value ./ sqrt(2));
-MI.behavior.stats.p_MI_value = normcdf(MI.behavior.stats.z_MI_value);
+MI.behavior.stats.p_MI_value = 2*(1-normcdf(MI.behavior.stats.z_MI_value));
 %MI.behavior.stats.p_MI_value = erfc(- MI.behavior.stats.z_MI_value ./ sqrt(2))./2;
 
 
@@ -642,7 +642,7 @@ tic
 for  ii = 1:size(MI.video.MeanAmp_2plot,2)
      
      % catch values
-     amp = cat(1,MI.video.MeanAmp_2plot(:,ii)./sum(MI.video.MeanAmp_2plot(:,ii)), MI.video.MeanAmp_2plot(:,ii)./sum(MI.video.MeanAmp_2plot(:,ii)));
+     amp = cat(1,MI.video.MeanAmp_2plot(:,ii), MI.video.MeanAmp_2plot(:,ii));
      
      % set values in each iteneration
      set(b,'YData',amp)
