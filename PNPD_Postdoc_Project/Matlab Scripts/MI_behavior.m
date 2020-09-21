@@ -412,6 +412,9 @@ clear ('ii','jj','count','h','figx','figy');
 %% Phase-amplitude cross-frequency coupling measure
  % Continuous time course with overlap
  
+ % OBS. for now channel (phase and amplitude) with himself
+ % TO DO: build code for all comparisons
+ 
 % MI_value_timewin 
 % - cell          - > first column: before / second column: during
 %                     lines: behavioral events
@@ -437,16 +440,16 @@ overlap = round((MI.behavior.params.time_window_idx)-(MI.behavior.params.timeove
 % Time epochs
 % Before
 
-time2save_idx_1 = (1:overlap:length(MI.behavior.data_before{1,1}) - MI.behavior.params.time_window_idx);
+MI.behavior.params.time2save_idx_1 = (1:overlap:length(MI.behavior.data_before{1,1}) - MI.behavior.params.time_window_idx);
 
 % During
 % Define idx without NaN`s length
 
-time2save_idx_2 = cell(size(MI.behavior.data_during{1,1},3),1);
+MI.behavior.params.time2save_idx_2 = cell(size(MI.behavior.data_during{1,1},3),1);
 for ii = 1:size(MI.behavior.data_during{1,1},3)    
     temp = MI.behavior.data_during{1,2}(:,:,ii);    
-    nonan = reshape(temp(~isnan(temp)),parameters.nch+1,[]);
-    time2save_idx_2{ii,1} = (1:overlap:length(nonan) - MI.behavior.params.time_window_idx);
+    nonan = reshape(temp(~isnan(temp)),size(MI.behavior.data_during{1,1},1),[]);
+    MI.behavior.params.time2save_idx_2{ii,1} = (1:overlap:length(nonan) - MI.behavior.params.time_window_idx);
 end
 
 
@@ -470,9 +473,9 @@ end
 
 for ii = 1:size(MI.behavior.data_during{1,1},1)
     for jj = 1:size(MI.behavior.data_during{1,1},3)
-        for ll = 1:length(time2save_idx_1)
+        for ll = 1:length(MI.behavior.params.time2save_idx_1)
         
-        [MI.behavior.MI_value_timewin{jj,1}(ii,ll),MI.behavior.MeanAmp_timewin{jj,1}(ii,:,ll)] = ModIndex(MI.behavior.data_before{1,1}(ii,time2save_idx_1(ll):(time2save_idx_1(ll) + MI.behavior.params.time_window_idx -1),jj), MI.behavior.data_before{1,2}(ii,time2save_idx_1(ll):(time2save_idx_1(ll) + MI.behavior.params.time_window_idx -1),jj),MI.behavior.params.position);
+        [MI.behavior.MI_value_timewin{jj,1}(ii,ll),MI.behavior.MeanAmp_timewin{jj,1}(ii,:,ll)] = ModIndex(MI.behavior.data_before{1,1}(ii,MI.behavior.params.time2save_idx_1(ll):(MI.behavior.params.time2save_idx_1(ll) + MI.behavior.params.time_window_idx -1),jj), MI.behavior.data_before{1,2}(ii,MI.behavior.params.time2save_idx_1(ll):(MI.behavior.params.time2save_idx_1(ll) + MI.behavior.params.time_window_idx -1),jj),MI.behavior.params.position);
             
         end
     end
@@ -483,9 +486,9 @@ end
 
 for ii = 1:size(MI.behavior.data_during{1,1},1)
     for jj = 1:size(MI.behavior.data_during{1,1},3)
-        for ll = 1:length(time2save_idx_2{jj})
+        for ll = 1:length(MI.behavior.params.time2save_idx_2{jj})
         
-        [MI.behavior.MI_value_timewin{jj,2}(ii,ll),MI.behavior.MeanAmp_timewin{jj,2}(ii,:,ll)] = ModIndex(MI.behavior.data_during{1,1}(ii,time2save_idx_2{jj}(ll):(time2save_idx_2{jj}(ll) + MI.behavior.params.time_window_idx -1),jj), MI.behavior.data_during{1,2}(ii,time2save_idx_2{jj}(ll):(time2save_idx_2{jj}(ll) + MI.behavior.params.time_window_idx -1),jj),MI.behavior.params.position);
+        [MI.behavior.MI_value_timewin{jj,2}(ii,ll),MI.behavior.MeanAmp_timewin{jj,2}(ii,:,ll)] = ModIndex(MI.behavior.data_during{1,1}(ii,MI.behavior.params.time2save_idx_2{jj}(ll):(MI.behavior.params.time2save_idx_2{jj}(ll) + MI.behavior.params.time_window_idx -1),jj), MI.behavior.data_during{1,2}(ii,MI.behavior.params.time2save_idx_2{jj}(ll):(MI.behavior.params.time2save_idx_2{jj}(ll) + MI.behavior.params.time_window_idx -1),jj),MI.behavior.params.position);
 
         end
     end
@@ -501,19 +504,19 @@ nonan_len = zeros(1,size(data.events.behavior.TSseconds,1));
 
 for ii = 1:size(data.events.behavior.TSseconds,1)
     
-    temp = MI.behavior.MI_value_timewin{ii,2}(2,:); % from channel 2! channel 1 is modulated signal
+    temp = MI.behavior.MI_value_timewin{ii,2}(1,:);
     nonan_len(ii) = length(temp(~isnan(temp)));
     
     MI.behavior.MI_value_timewin_time_vector{ii,1} = linspace(-parameters.behavior.Tpre,-1,size(MI.behavior.MI_value_timewin{1,1},2));
     MI.behavior.MI_value_timewin_time_vector{ii,2} = linspace(0,data.events.behavior.TSseconds(ii,2) - data.events.behavior.TSseconds(ii,1),nonan_len(ii));
 end
 
-clear ('overlap','nonan','temp','time2save_idx_1','time2save_idx_2','ii','jj','ll','temp1','nonan_len')
+clear ('overlap','nonan','temp','MI.behavior.params.time2save_idx_1','MI.behavior.params.time2save_idx_2','ii','jj','ll','temp1','nonan_len')
 
 %% Plot MI values over time for each behaviour event
 
 % Choose channel to plot
-ch = 3;
+ch = 15;
 
 % Set Figure
 figure
@@ -522,13 +525,13 @@ set(gcf,'color','white')
 suptitle({[];'Phase-Amplitude coupling';['(Sliding window = ' num2str(MI.behavior.params.time_window) 's' ' - ' 'overlap = ' num2str(MI.behavior.params.timeoverlap*100) '%)']}) 
 
 
-for ii= 1:size(MI.behavior.MI_value_timewin,1)
+for ii = 1:size(MI.behavior.MI_value_timewin,1)
     subplot(1,size(MI.behavior.MI_value_timewin,1),ii)
     % Concatenate period to plot
     plot([MI.behavior.MI_value_timewin_time_vector{ii,1} MI.behavior.MI_value_timewin_time_vector{ii,2}], [MI.behavior.MI_value_timewin{ii,1}(ch,:) MI.behavior.MI_value_timewin{ii,2}(ch,:)], 'Color','[0.6350, 0.0780, 0.1840]','linew',2)
     hold all
     plot([0 0],[0 1],'k--')
-    ylim([0 0.015])
+    ylim([0 0.03])
     
     title(['Trial ',num2str(ii)])
     xlabel('Time (s)')
@@ -538,10 +541,350 @@ for ii= 1:size(MI.behavior.MI_value_timewin,1)
 
 end
 
-    %legend('Theta (4–10 Hz) & Gamma (80–140 Hz)','location','southoutside')
-    %legend boxoff
+    legend('Theta (4–10 Hz) & Gamma (80–140 Hz)','location','southoutside')
+    legend boxoff
 
 clear ('ii','ch')
+
+%% Surrogate phase vectors to compare
+
+% MI_shuffle_values_timewin
+% - cell          - > first column: before / second column: during
+%                     lines: behavioral events
+% - each cell     - > lines: channels
+%                     columns: time 
+%                     3nd dimension - > rearrangements 
+
+numshf  = 200; % number of shuffled segments
+nsurrog = 200; % number of rearrangements
+
+% Loop over behavior events 
+
+before_shuffle = [];
+during_shuffle = [];
+
+
+% Before
+
+for ss = 1:nsurrog
+    
+    for ii = 1:size(MI.behavior.data_during{1,1},1)
+        for jj = 1:size(MI.behavior.data_during{1,1},3)
+            for ll = 1:length(MI.behavior.params.time2save_idx_1)
+        
+            before_shuffle{jj,1}(ii,:,ll) = shuffle_esc(MI.behavior.data_before{1,1}(ii,MI.behavior.params.time2save_idx_1(ll):(MI.behavior.params.time2save_idx_1(ll) + MI.behavior.params.time_window_idx -1),jj),parameters.srate,numshf);
+            
+            end
+        end
+    end
+    
+    for ii = 1:size(MI.behavior.data_during{1,1},1)
+        for jj = 1:size(MI.behavior.data_during{1,1},3)
+            for ll = 1:length(MI.behavior.params.time2save_idx_1)
+                
+            [MI.behavior.MI_shuffle_values_timewin{jj,1}(ii,ll,ss)] = ModIndex(before_shuffle{jj,1}(ii,:,ll), MI.behavior.data_before{1,2}(ii,MI.behavior.params.time2save_idx_1(ll):(MI.behavior.params.time2save_idx_1(ll) + MI.behavior.params.time_window_idx -1),jj),MI.behavior.params.position);
+
+            end
+        end
+    end
+    
+        before_shuffle = [];
+        
+end 
+
+
+% During
+
+for ss = 1:nsurrog
+    
+    for ii = 1:size(MI.behavior.data_during{1,1},1)
+        for jj = 1:size(MI.behavior.data_during{1,1},3)
+            for ll = 1:length(MI.behavior.params.time2save_idx_2{jj})
+        
+            during_shuffle{jj,1}(ii,:,ll) = shuffle_esc(MI.behavior.data_during{1,1}(ii,MI.behavior.params.time2save_idx_2{jj}(ll):(MI.behavior.params.time2save_idx_2{jj}(ll) + MI.behavior.params.time_window_idx -1),jj),parameters.srate,numshf);
+            
+            end
+        end
+    end
+    
+    for ii = 1:size(MI.behavior.data_during{1,1},1)
+        for jj = 1:size(MI.behavior.data_during{1,1},3)
+            for ll = 1:length(MI.behavior.params.time2save_idx_2{jj})
+                
+            [MI.behavior.MI_shuffle_values_timewin{jj,2}(ii,ll,ss)] = ModIndex(during_shuffle{jj,1}(ii,:,ll), MI.behavior.data_during{1,2}(ii,MI.behavior.params.time2save_idx_2{jj}(ll):(MI.behavior.params.time2save_idx_2{jj}(ll) + MI.behavior.params.time_window_idx -1),jj),MI.behavior.params.position);
+
+            end
+        end
+    end
+    
+        during_shuffle = [];
+        
+end 
+
+
+% z surrogated values
+for ii = 1:size(MI.behavior.data_during{1,1},3)
+    
+    MI.behavior.stats.z_MI_shuffle_values_timewin{ii,1} = zscore(MI.behavior.MI_shuffle_values_timewin{ii,1}(15,:,:));
+    MI.behavior.stats.z_MI_shuffle_values_timewin{ii,2} = zscore(MI.behavior.MI_shuffle_values_timewin{ii,2});
+    
+end
+
+% z real(observed) values
+for ii = 1:size(MI.behavior.data_during{1,1},3)
+
+    MI.behavior.stats.z_MI_value_timewin{ii,1} = (MI.behavior.MI_value_timewin{ii,1} - mean(MI.behavior.MI_shuffle_values_timewin{ii,1},3))./std(MI.behavior.MI_shuffle_values_timewin{ii,1},[],3);
+    MI.behavior.stats.z_MI_value_timewin{ii,2} = (MI.behavior.MI_value_timewin{ii,2} - mean(MI.behavior.MI_shuffle_values_timewin{ii,2},3))./std(MI.behavior.MI_shuffle_values_timewin{ii,2},[],3);
+
+end
+
+% p values
+for ii = 1:size(MI.behavior.data_during{1,1},3)
+       
+    MI.behavior.stats.p_MI_value_timewin{ii,1} = 2*(1-normcdf(MI.behavior.stats.z_MI_value_timewin{ii,1}));
+    MI.behavior.stats.p_MI_value_timewin{ii,2} = 2*(1-normcdf(MI.behavior.stats.z_MI_value_timewin{ii,2}));
+
+%    zval = norminv(1-(.05/length(sessions))); % z-value threshold at p=0.05, correcting for multiple comparisons
+
+%    MI.behavior.stats.p_MI_value_timewin{ii,1} = 2 * normcdf(-abs(MI.behavior.stats.z_MI_value_timewin{ii,1}));
+%    MI.behavior.stats.p_MI_value_timewin{ii,2} = 2 * normcdf(-abs(MI.behavior.stats.z_MI_value_timewin{ii,2}));
+%     
+%    MI.behavior.stats.p_MI_value_timewin{ii,1} = 0.5 * erfc(-MI.behavior.stats.z_MI_value_timewin{ii,1} ./ sqrt(2)); % p value. Similar to Matlab function: normcdf(-z) two-tailed
+%    MI.behavior.stats.p_MI_value_timewin{ii,2} = 0.5 * erfc(-MI.behavior.stats.z_MI_value_timewin{ii,2} ./ sqrt(2)); % p value. Similar to Matlab function: normcdf(-z) two-tailed
+
+end
+
+clear('ll', 'ss','jj','ii','nsurrog','numshf','time2samples','before_shuffle','during_shuffle')
+
+%% Plot MI values over time for each behaviour event
+
+% Choose channel to plot
+ch = 15;
+
+% identify p values idx
+
+p = 0.05;
+
+for ii = 1:size(MI.behavior.data_during{1,1},3)
+    
+    p_idx{ii,1} = MI.behavior.stats.p_MI_value_timewin{ii, 1} < p;
+    p_idx{ii,2} = MI.behavior.stats.p_MI_value_timewin{ii, 2} < p;
+    
+end
+
+% Set Figure
+figure
+set(gcf,'color','white')
+
+suptitle({[];'Phase-Amplitude coupling';['(Sliding window = ' num2str(MI.behavior.params.time_window) 's' ' - ' 'overlap = ' num2str(MI.behavior.params.timeoverlap*100) '%)']}) 
+
+% Plot RAW MI values
+for ii= 1:size(MI.behavior.MI_value_timewin,1)
+    
+    subplot(2,size(MI.behavior.MI_value_timewin,1),ii)
+    
+    t1   = [MI.behavior.MI_value_timewin_time_vector{ii,1} MI.behavior.MI_value_timewin_time_vector{ii,2}];
+    plt1 = [MI.behavior.MI_value_timewin{ii,1}(ch,:) MI.behavior.MI_value_timewin{ii,2}(ch,:)];
+    
+    % Concatenate period to plot
+    plot(t1,plt1, 'Color','k','linew',2)
+    hold all
+    plot(t1([p_idx{ii,1}(ch,:) p_idx{ii,2}(ch,:)]), plt1([p_idx{ii,1}(ch,:) p_idx{ii,2}(ch,:)]), 'Ro','linew',2)    
+    plot([0 0],[-5 5],'k--')
+    ylim([0 0.03])
+    
+    title(['Bout ',num2str(ii)])
+    xlabel('Time (s)')
+    ylabel('Modulation Index')
+    axis square
+    box off
+
+end
+
+
+% Plot MI z values
+for ii= 1:size(MI.behavior.MI_value_timewin,1)
+    
+    subplot(2,size(MI.behavior.MI_value_timewin,1),ii+size(MI.behavior.MI_value_timewin,1))
+    
+    t2   = [MI.behavior.MI_value_timewin_time_vector{ii,1} MI.behavior.MI_value_timewin_time_vector{ii,2}];
+    plt2 = [MI.behavior.stats.z_MI_value_timewin{ii,1}(ch,:) MI.behavior.stats.z_MI_value_timewin{ii,2}(ch,:)];
+    
+    % Concatenate period to plot
+    plot(t2,plt2, 'Color','k','linew',2)
+    hold all
+    plot(t2([p_idx{ii,1}(ch,:) p_idx{ii,2}(ch,:)]), plt2([p_idx{ii,1}(ch,:) p_idx{ii,2}(ch,:)]), 'Ro','linew',2)    
+    plot([t2(1) t2(end)],[1.96 1.96],'k--')
+    plot([t2(1) t2(end)],[-1.96 -1.96],'k--')
+    plot([0 0],[-5 5],'k--')
+    ylim([-6 6])
+    
+    title(['Bout ',num2str(ii)])
+    xlabel('Time (s)')
+    ylabel('Z values')
+    axis square
+    box off
+
+end
+
+    legend('Theta (4–10 Hz) & Gamma (80–140 Hz)','location','southoutside')
+    legend boxoff
+
+clear ('ii','ch','g','idx','p','p_idx','t1','plt1','t2','plt2')
+
+
+%% Plot one trial and choose desire window amplitude distribution
+
+% Choose trial
+trial = 1;
+
+% Choose channel
+ch = 15;
+
+% Concatenate data and time 
+time = [MI.behavior.MI_value_timewin_time_vector{trial,1} MI.behavior.MI_value_timewin_time_vector{trial,2}];
+
+% z values
+data_z = [MI.behavior.stats.z_MI_value_timewin{trial,1}(ch,:) MI.behavior.stats.z_MI_value_timewin{trial,2}(ch,:)];
+
+% MI raw values
+data_mi = [MI.behavior.MI_value_timewin{trial,1}(ch,:) MI.behavior.MI_value_timewin{trial,2}(ch,:)];
+
+
+% Plot to choose best time windows. 
+% Use data_cursor and export cursor_info values to the workspace 
+figure
+set(gcf,'color','white')
+
+subplot(2,1,1)
+plot(time,data_mi, 'Color','k','linew',2)
+hold
+plot([0 0],[0 max(data_mi)],'k--')
+
+subplot(2,1,2)
+plot(time,data_z, 'Color','k','linew',2)
+hold
+plot([time(1) time(end)],[1.96 1.96],'k--')
+plot([time(1) time(end)],[-1.96 -1.96],'k--')
+plot([0 0],[min(data_z) max(data_z)],'k--')
+
+%Define IDX
+idx = fliplr([cursor_info.DataIndex]);
+
+% Concatenate amplitude histogram
+% - each column is a differente time point
+hstg_1 = squeeze(cat(3,MI.behavior.MeanAmp_timewin{trial,1}(ch,:,:), MI.behavior.MeanAmp_timewin{trial,2}(ch,:,:)));
+
+% Concatenate MI shuffle z values distribuition 
+% - each line is a differente time point
+hstg_2 = squeeze(cat(2,MI.behavior.stats.z_MI_shuffle_values_timewin{trial,1}(ch,:,:), MI.behavior.stats.z_MI_shuffle_values_timewin{trial,2}(ch,:,:)));
+
+% Concatenate MI real z values 
+% - each column is a differente time point
+MI_z = squeeze(cat(2,MI.behavior.stats.z_MI_value_timewin{trial,1}(ch,:), MI.behavior.stats.z_MI_value_timewin{trial,2}(ch,:)));
+
+% Define x values for amplitude histogram
+xvalue1 = rad2deg(MI.behavior.params.position) + 180;
+xvalue2 = xvalue1 + 360;
+
+
+figure (2)
+set(gcf,'color','white')
+
+suptitle({[];'Phase-Amplitude coupling';['(Sliding window = ' num2str(MI.behavior.params.time_window) 's' ' - ' 'overlap = ' num2str(MI.behavior.params.timeoverlap*100) '%)']}) 
+
+subplot(4,length(idx),[1 length(idx)])
+plot(time,data_mi, 'Color','k','linew',2)
+hold
+plot(time(idx),data_mi(idx),'Ro','linew',4,'MarkerFaceColor','R')
+plot([0 0],[min(data_mi) max(data_mi)],'k--')
+
+title(['\fontsize{12}Bout' num2str(trial)])
+xlabel('\fontsize{12}Time (s)')
+ylabel('\fontsize{12}MI')
+box off
+
+subplot(4,length(idx),[length(idx)+1 length(idx)*2])
+plot(time,data_z, 'Color','k','linew',2)
+hold
+plot([time(1) time(end)],[1.96 1.96],'k--')
+plot([time(1) time(end)],[-1.96 -1.96],'k--')
+
+plot([0 0],[min(data_z) max(data_z)],'k--')
+plot(time(idx),data_z(idx),'Ro','linew',4,'MarkerFaceColor','R')
+xlabel('\fontsize{12}Time (s)')
+ylabel('\fontsize{12}z-value')
+ylim([-5 5])
+box off
+
+for ii = 1:length(idx)
+    subplot(4,length(idx),2*length(idx)+ii)
+    b3 = bar([xvalue1 xvalue2],[hstg_1(:,idx(ii)); hstg_1(:,idx(ii))]);
+    b3.FaceColor = 'w';
+    %ylim([0 0.1])
+    xlabel('\fontsize{12}phase (degree)')
+    ylabel('\fontsize{12}norm amplitude')
+end
+
+for ii = 1:length(idx)
+    subplot(4,length(idx),3*length(idx)+ii)
+    h = histogram(hstg_2(ii,:),MI.behavior.params.nbin);
+    h.FaceColor = 'w';
+    %xlim([-3 +3])
+    hold on
+    plot([MI_z(1,idx(ii)) MI_z(1,idx(ii))],[0 30],'Color', '[0.6350, 0.0780, 0.1840]','linewidth',4);
+    xlabel('\fontsize{12}z values')
+    ylabel('\fontsize{14}Frequency')
+    legend({'\fontsize{12}Random';'\fontsize{12}Observed'},'box','off');
+end
+
+clear('ch','data_mi','data_z','time','trial','cursor_info','idx','hstg_1','hstg_2','MI_z','xvalue1','xvalue2','b3','h','ii')
+
+
+%% Plot all channels over all trials. 
+
+% MI raw values
+figure
+suptitle({[];'Phase-Amplitude coupling';['(Sliding window = ' num2str(MI.behavior.params.time_window) 's' ' - ' 'overlap = ' num2str(MI.behavior.params.timeoverlap*100) '%)']}) 
+
+
+for ii= 1:size(MI.behavior.MI_value_timewin,1)    
+    subplot(1,size(MI.behavior.MI_value_timewin,1),ii)
+    mi_values = [MI.behavior.MI_value_timewin{ii, 1} MI.behavior.MI_value_timewin{ii, 2}];
+    t = [MI.behavior.MI_value_timewin_time_vector{ii,1} MI.behavior.MI_value_timewin_time_vector{ii,2}];
+    
+    contourf(t,(1:1:size(mi_values,1)),mi_values,80,'linecolor','none');
+    c = colorbar;
+    ylabel(c,'MI','FontSize',12,'Rotation',270);
+    c.Label.Position = [4.88,0.015,0];
+    caxis([0 0.03])
+    xlabel('\fontsize{12}time (s)')
+    ylabel('\fontsize{12}channels')
+
+end
+
+
+% p values
+figure
+
+for ii= 1:size(MI.behavior.MI_value_timewin,1)
+    
+    subplot(1,size(MI.behavior.MI_value_timewin,1),ii)
+    p_values = [MI.behavior.stats.p_MI_value_timewin{ii, 1} MI.behavior.stats.p_MI_value_timewin{ii, 2}];
+    t = [MI.behavior.MI_value_timewin_time_vector{ii,1} MI.behavior.MI_value_timewin_time_vector{ii,2}];
+
+    contourf(t,(1:1:size(p_values,1)),p_values,80,'linecolor','none');
+    colormap(flipud(jet))
+    c = colorbar;
+    ylabel(c,'p values','FontSize',12,'Rotation',270);
+    c.Label.Position = [4.88,0.049,0];
+    caxis([0 0.1])
+    xlabel('\fontsize{12}time (s)')
+    ylabel('\fontsize{12}channels')
+    
+end
+
+clear('ii','c','mi_values','p_values','t')
 
 %% Video MI
 
@@ -552,23 +895,25 @@ MI.video.ch = 3;
 MI.video.trl = 1;
 
 % concatenate period
+
+% MI raw values
 MI.video.data_2plot = [MI.behavior.MI_value_timewin{MI.video.trl,1}(MI.video.ch,:) MI.behavior.MI_value_timewin{MI.video.trl,2}(MI.video.ch,:)];
+% MI z values
+%MI.video.data_2plot = [MI.behavior.stats.z_MI_value_timewin{MI.video.trl,1}(MI.video.ch,:) MI.behavior.stats.z_MI_value_timewin{MI.video.trl,2}(MI.video.ch,:)];
+% Time vector
 MI.video.time_2plot = [MI.behavior.MI_value_timewin_time_vector{MI.video.trl,1} MI.behavior.MI_value_timewin_time_vector{MI.video.trl,2}];
 
-% Mov Mean to smooth just to smoth signal
-MI.video.data_2plot_filter = smooth(MI.video.time_2plot,MI.video.data_2plot,15);
-
 % set video time idx
-MI.video.vid_min = -10; % check pre trial time defined before
+MI.video.vid_min = -5; % check pre trial time defined before
 MI.video.vid_min_idx = dsearchn(MI.video.time_2plot',MI.video.vid_min);
 
-MI.video.vid_max     = 10; % check trial time defined before
+MI.video.vid_max     = 20; % check trial time defined before
 MI.video.vid_max_idx = dsearchn(MI.video.time_2plot',MI.video.vid_max);
 
 % Define Plot (parameters for high resolution)
 figure('units', 'pixels', 'position', [0 0 1920 1080]); clf
 set(gcf,'color','white')
-axis([-10,10,0,0.015])
+axis([-5,20,0,0.025])
 
 set(gca,'XColor','w','Fontsize',14)
 
@@ -578,8 +923,8 @@ axis square
 hold all
 box off
 
-plot([8 10],[0.0005 0.0005],'k','linew',2)
-plot([0 0],[0 0.015],'k--','linew',.5)
+plot([18 20],[0.0005 0.0005],'k','linew',2)
+plot([0 0],[0 0.025],'k--','linew',.5)
 
 h = animatedline;
 
@@ -594,7 +939,7 @@ open(mov)
 tic
 for ii = 1:length(MI.video.vid_min_idx:MI.video.vid_max_idx)
     
-    addpoints(h,MI.video.time_2plot(ii),MI.video.data_2plot_filter(ii));
+    addpoints(h,MI.video.time_2plot(ii),MI.video.data_2plot(ii));
     drawnow
     pause (0.220)
     
@@ -659,5 +1004,6 @@ close(mov)
 
 clear('amp','xvalue1','xvalue2','b','F','h','ii','mov')
 
-%% last update 12/09/2020 - 18:21am
-%  listening: beck - true love will find you in the end
+
+%% last update 20/09/2020 - 1:53am
+%  listening: Pedro the lion - Of up and coming monarchs

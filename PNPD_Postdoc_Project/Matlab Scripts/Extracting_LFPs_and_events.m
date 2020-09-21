@@ -11,11 +11,11 @@ function [data, parameters] = Extracting_LFPs_and_events()
 % - Outputs:
 
 %   "data" 
-%   -> data.raw       -> raw data. Original sample rate
-%                        Columns: Channels x  Rows:Time
+%   -> data.raw{1,1}  -> Cell -> First cell column: original signal.
+%                        Each cell: Rows: Channels x Columns: Time
 %   -> data.timev_raw -> time vector. Original sample rate
 
-%   -> data.data      -> Cell -> First cell column: signal decimated.
+%   -> data.data{1,1} -> Cell -> First cell column: signal decimated.
 %                        Each cell: Rows: Channels x Columns: Time
 %   -> data.timev     -> time vector. Signal decimated
 
@@ -112,7 +112,8 @@ for jj = 1:length(parameters.FilesLoaded)
                 % Raw data - Rows: Time  x Columns: Channels
                 % Remove linear trend (Matlab build function 'detrend'/ Method: 'constant' - subtract the mean from the data)
                 [data_temp, data.timev_raw, info] = load_open_ephys_data(fullFileName);
-                data.raw = detrend(data_temp, 'constant');  % Raw data           
+                data(1,1).data{1,1}  = zeros(parameters.nch, ceil(length(data_temp)));
+                data.raw{1,1} = detrend(data_temp, 'constant');  % Raw data           
                 parameters.header = info.header;            % Data File Header
                 parameters.srate  = info.header.sampleRate;
                 
@@ -122,13 +123,13 @@ for jj = 1:length(parameters.FilesLoaded)
                 % Raw data - Rows: Time  x Columns: Channels
                 % Remove linear trend (Matlab build function 'detrend'/ Method: 'constant' - subtract the mean from the data)
                 [data_temp, data.timev_raw, info] = load_open_ephys_data(fullFileName);
-                data.raw = detrend(data_temp, 'constant');  % Raw data           
+                data.raw{1,1} = detrend(data_temp, 'constant');  % Raw data           
                 parameters.header = info.header;   
             
                 % Downsampling with Matlab decimate function
                 % data - Rows: Channels x Columns: Time
-                data(1,1).data{1,1}  = zeros(parameters.nch, ceil(length(data.raw)/parameters.downsampling));
-                data.data{1,1}(jj,:) = decimate(data.raw,parameters.downsampling); 
+                data(1,1).data{1,1}  = zeros(parameters.nch, ceil(length(data.raw{1,1})/parameters.downsampling));
+                data.data{1,1}(jj,:) = decimate(data.raw{1,1},parameters.downsampling); 
                                            
                 % Organize parameters according to the downsampling information
                 parameters.srate  = info.header.sampleRate./parameters.downsampling;  % Sampling frequency after downsamplig(Hz)
@@ -142,21 +143,21 @@ for jj = 1:length(parameters.FilesLoaded)
                 % Load datafiles (*.continuous).
                 % Rows: Time x Columns: Channels
                 % Remove linear trend (function 'detrend')               
-                data.raw(:,jj)  = detrend(load_open_ephys_data(fullFileName),'constant'); % Raw data
+                data.raw{1,1}(:,jj)  = detrend(load_open_ephys_data(fullFileName),'constant'); % Raw data
         
         elseif  jj > 1 && parameters.downsampling > 1
                 
                 % Load datafiles (*.continuous).
                 % Rows: Time x Columns: Channels
                 % Remove linear trend (function 'detrend')               
-                data.raw(:,jj)  = detrend(load_open_ephys_data(fullFileName),'constant'); % Raw data
+                data.raw{1,1}(:,jj)  = detrend(load_open_ephys_data(fullFileName),'constant'); % Raw data
             
                 % Downsampling with Matlab decimate function
                 % data - Rows: Channels x Columns: Time               
-                data.data{1,1}(jj,:) = decimate(data.raw(:,jj),parameters.downsampling);            % parameters.downsampling with Matlab decimate function
+                data.data{1,1}(jj,:) = decimate(data.raw{1,1}(:,jj),parameters.downsampling);            % parameters.downsampling with Matlab decimate function
       
         end
-
+ 
         
         % Case for load events
          
@@ -180,13 +181,16 @@ for jj = 1:length(parameters.FilesLoaded)
         end
         
     end
+    
 end  
 
-
+% Transpose data_raw 
+% Rows: Channels x Columns: Time
+data.raw{1,1} = data.raw{1,1}';
     
 fprintf('\n Done. \n');
 
 end
 
-%% last update 14/09/2020 - 2:46
-%  listening: Mogwai - Ghost Nets
+%% last update 20/09/2020 - 22:46
+%  listening: Mogwai - D to E

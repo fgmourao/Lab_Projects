@@ -38,7 +38,7 @@
 % email: mourao.fg@gmail.com
 % Universidade Federal de Minas Gerais. 
 % Started in:  02/2020
-% Last update: 05/2020
+% Last update: 09/2020
 
 %% First extract the data with : Extracting_LFPs_and_events.m
 
@@ -61,7 +61,7 @@ ch_order3 = [25 26 27 28] - 16;
 ch_order4 = [29 30 31 32] - 16;
 
 % Rearrange  channels
-data.raw        = data.raw(:,[ch_order1 ch_order2 ch_order3 ch_order4]);       % Raw data - All channels  
+data.raw{1,1}   = data.raw{1,1}([ch_order1 ch_order2 ch_order3 ch_order4],:);       % Raw data - All channels  
 data.data{1,1}  = data.data{1,1}([ch_order1 ch_order2 ch_order3 ch_order4],:); % Downsampled data - All channels 
 
 % Clear trash
@@ -86,12 +86,15 @@ data.events.ts_mod = data.events.ts_sort{1,2}; % in seconds
 data.events.idx_t(:,1) = data.events.ts_mod(abs(diff([0; data.events.ts_mod]))>1);
 data.events.idx_t(:,2) = data.events.ts_mod(abs(diff([data.events.ts_mod; 0]))>1);
 
-% Index
+% Index from decimate data
 data.events.idx(:,1) = dsearchn(data.timev,data.events.idx_t(:,1));
 data.events.idx(:,2) = dsearchn(data.timev,data.events.idx_t(:,2));
 
+% Index from raw data
+data.events.raw_idx(:,1) = dsearchn(data.timev_raw,data.events.idx_t(:,1));
+data.events.raw_idx(:,2) = dsearchn(data.timev_raw,data.events.idx_t(:,2));
 
-%% Estimating the CS modulating signal
+%% Estimating the CS modulating signal from decimate data
 
 % The timestamps locked to the peaks and valleys of the CS modulating frequency
 % were generated in parallel through one of the Arduino Digital I/O pins and then recorded
@@ -131,7 +134,7 @@ clear ('picosTSidxs', 'valesTSidxs', 'phiRec', 'xphi', 'yphi', 'qp', 'yrec','ii'
 % Concatenate the modulator signal as channel 1 in the decimated data variable
 data.data{1,1} = [data.mod';data.data{1, 1}];
 
-%% Filter Data
+%% Filter Decimate Data
 
 % Filtering by hand (especially the modulated envelope): 'filter_mod.m'
 % and/or
@@ -195,12 +198,14 @@ toRemove = find((data.events.behavior.TS_LFPsec(:,2) - data.events.behavior.TS_L
 
 data.events.behavior.TS_LFPindex(toRemove,:) = [];
 data.events.behavior.TS_LFPsec(toRemove,:)   = [];
+
 data.events.behavior.TSframes(toRemove,:)    = [];
 data.events.behavior.TSseconds(toRemove,:)   = [];
 
 % correcting TS_LFPsec  to zero if the record has started after a viewing time
 data.events.behavior.TS_LFPsec = data.events.behavior.TS_LFPsec - min(data.timev_raw);
 
+clear('FileLoaded', 'MinTime','Path','toRemove')
 
 %%
 % Correcting timestamps according to the downsamplig
@@ -228,45 +233,80 @@ parameters.behavior.NTrials     = length(data.events.behavior.TS_LFPsec);
 % - columns     - > time
 % - 3 dimension - > behavioral events
 
+% Decimate data
 % Initializing behavior periods
 data.data_behavior    = cell(parameters.behavior.NTrials,length(data.data));
 
 % Cutting time windows...
 for ii = 1:size(data.data,2)
     for jj = 1:size(data.events.behavior.TS_LFPindex,1)       
-         data.data_behavior{jj,ii} = data.data{1,ii}(:,data.events.behavior.TS_LFPindex(jj,1) - parameters.behavior.Tpre * parameters.srate : data.events.behavior.TS_LFPindex(jj,2) + parameters.behavior.Tpos * parameters.srate);  
+         data.data_behavior{jj,ii} = data.data{1,ii}(:,data.events.behavior.TS_LFPsec(jj,1) * parameters.srate - parameters.behavior.Tpre * parameters.srate : data.events.behavior.TS_LFPsec(jj,2) * parameters.srate + parameters.behavior.Tpos * parameters.srate);      
+    end   
+end
+
+% Raw data
+% Initializing behavior periods
+data.raw_behavior     = cell(parameters.behavior.NTrials,length(data.raw));
+
+% Cutting time windows...
+for ii = 1:size(data.raw,2)
+    for jj = 1:size(data.events.behavior.TS_LFPindex,1)       
+         data.raw_behavior{jj,ii}  = data.raw{1,ii}(:,data.events.behavior.TS_LFPsec(jj,1) * parameters.header.sampleRate - parameters.behavior.Tpre * parameters.header.sampleRate : data.events.behavior.TS_LFPsec(jj,2) * parameters.header.sampleRate + parameters.behavior.Tpos * parameters.header.sampleRate);  
+    
     end   
 end
 
 % Normalizing total samples with "not a numbers (nan)" in each trial 
 % to the exact time period according to the sample rate.
 
-totalsamples  = max(max(cellfun(@length,data.data_behavior)));
-
+% Decimate data
+totalsamples1  = max(max(cellfun(@length,data.data_behavior)));
 for ii = 1:size(data.data_behavior,2)
     for jj = 1:size(data.data_behavior,1)        
-        if length(data.data_behavior{jj,ii}) < totalsamples
-           data.data_behavior{jj,ii}(:,end:totalsamples) = nan;
+        if length(data.data_behavior{jj,ii}) < totalsamples1
+           data.data_behavior{jj,ii}(:,end:totalsamples1) = nan;
         else
            continue
         end
     end
 end
 
-clear ('totalsamples')
+% Raw data
+totalsamples2  = max(max(cellfun(@length,data.raw_behavior)));
+
+for ii = 1:size(data.raw_behavior,2)
+    for jj = 1:size(data.raw_behavior,1)        
+        if length(data.raw_behavior{jj,ii}) < totalsamples2
+           data.raw_behavior{jj,ii}(:,end:totalsamples2) = nan;
+        else
+           continue
+        end
+    end
+end
+
+clear ('totalsamples1','totalsamples2')
 
 % Concatenate trials in 3 dimentions
 
+% Decimate data
 for ii = 1:size(data.data_behavior,2)
     data.data_behavior{1,ii} = cat(3,data.data_behavior{:,ii});
 end
 
 data.data_behavior(2:end,:) = [];
 
+% Raw Data
+for ii = 1:size(data.raw_behavior,2)
+    data.raw_behavior{1,ii} = cat(3,data.raw_behavior{:,ii});
+end
+
+data.raw_behavior(2:end,:) = [];
+
 % Setting Time
 
 % Initializing time trial vectors
 data.time_behavior = linspace(-parameters.behavior.Tpre,parameters.behavior.trialperiod + parameters.behavior.Tpos,length(data.data_behavior{1,1}));
+data.time_raw_behavior = linspace(-parameters.behavior.Tpre,parameters.behavior.trialperiod + parameters.behavior.Tpos,length(data.raw_behavior{1,1}));
 
 
 clear ('totalsamples','ii', 'jj', 'FileLoaded', 'Path', 'MinTime', 'toRemove')
@@ -287,6 +327,7 @@ parameters.NTrials     =  5; % number of trials
 % - columns     - time
 % - 3 dimension - trials
 
+% Decimate Data
 % Initializing trial periods
 data.data_trials     = cell(parameters.NTrials,length(data.data));
 
@@ -297,38 +338,74 @@ for ii = 1:size(data.data,2)
     end   
 end
 
+% Raw Data
+% Initializing trial periods
+data.data_raw_trials     = cell(parameters.NTrials,length(data.raw));
+
+% Cutting time windows...
+for ii = 1:size(data.raw,2)
+    for jj = 1:size(data.events.raw_idx,1)       
+         data.data_raw_trials{jj,ii} = data.raw{1,ii}(:,data.events.raw_idx(jj,1) - parameters.Tpre * parameters.header.sampleRate : data.events.raw_idx (jj,2) + parameters.Tpos * parameters.header.sampleRate);  
+    end   
+end
+
 % Normalizing total samples with "not a numbers (nan)" in each trial 
 % to the exact time period according to the sample rate.
 
-totalsamples  = max(max(cellfun(@length,data.data_trials)));
+% Decimate data
+totalsamples1  = max(max(cellfun(@length,data.data_trials)));
 
 for ii = 1:size(data.data_trials,2)
     for jj = 1:size(data.data_trials,1)        
-        if length(data.data_trials{jj,ii}) < totalsamples
-           data.data_trials{jj,ii}(:,end:totalsamples) = nan;
+        if length(data.data_trials{jj,ii}) < totalsamples1
+           data.data_trials{jj,ii}(:,end:totalsamples1) = nan;
         else
            continue
         end
     end
 end
 
-clear ('totalsamples')
+clear ('totalsamples1')
+
+% Raw data
+totalsamples2  = max(max(cellfun(@length,data.data_raw_trials)));
+
+for ii = 1:size(data.data_raw_trials,2)
+    for jj = 1:size(data.data_raw_trials,1)        
+        if length(data.data_raw_trials{jj,ii}) < totalsamples2
+           data.data_raw_trials{jj,ii}(:,end:totalsamples2) = nan;
+        else
+           continue
+        end
+    end
+end
+
+clear ('totalsamples2')
 
 % Concatenate trials in 3 dimentions
 
+% Decimate data
 for ii = 1:size(data.data,2)
     data.data_trials{1,ii} = cat(3,data.data_trials{:,ii});
 end
 
 data.data_trials(2:end,:) = [];
 
+% Raw data
+for ii = 1:size(data.raw,2)
+    data.data_raw_trials{1,ii} = cat(3,data.data_raw_trials{:,ii});
+end
+
+data.data_raw_trials(2:end,:) = [];
+
 % Setting Time
 
 % Initializing time trial vectors
 data.time_trials = linspace(-parameters.Tpre,parameters.trialperiod+parameters.Tpos,length(data.data_trials{1,1}));
+data.time_raw_trials = linspace(-parameters.Tpre,parameters.trialperiod+parameters.Tpos,length(data.data_raw_trials{1,1}));
 
 
-clear ('totalsamples','ii', 'jj')
+clear ('ii', 'jj')
 
-%% last update 10/05/2020 - 00:26am
-%  listening: Thom Yorke - All for the best
+%% last update 20/09/2020 - 01:04am
+%  listening: Hope Sandoval - Isn`t it true
