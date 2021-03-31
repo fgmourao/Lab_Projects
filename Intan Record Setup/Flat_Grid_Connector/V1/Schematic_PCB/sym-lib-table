@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name Flat_Grid_Big_V2-rescue)(type Legacy)(uri ${KIPRJMOD}/Flat_Grid_Big_V2-rescue.lib)(options "")(descr ""))
+  (lib (name Flat_Grid_Big_V1-rescue)(type Legacy)(uri ${KIPRJMOD}/Flat_Grid_Big_V1-rescue.lib)(options "")(descr ""))
+)

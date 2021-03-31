@@ -1,0 +1,815 @@
+EESchema Schematic File Version 2
+LIBS:NNClib
+LIBS:RHD2216_headstage1-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "HeadstageNNC.sch"
+Date "9 MAY 2016"
+Rev "1"
+Comp "UFMG"
+Comment1 "Núcleo de Neurociências"
+Comment2 "Paulo Aparecido Amaral Júnior"
+Comment3 "Márcio Flávio Dutra Moraes"
+Comment4 ""
+$EndDescr
+$Comp
+L C_0402 C1
+U 1 1 57309091
+P 5725 5625
+F 0 "C1" H 5785 5639 70  0000 L BNN
+F 1 "100n" H 5784 5440 70  0000 L BNN
+F 2 "NNClib:SMD_0805" H 5715 5415 65  0001 L TNN
+F 3 "" H 5725 5625 60  0001 C CNN
+	1    5725 5625
+	1    0    0    -1  
+$EndComp
+$Comp
+L C_0402 C2
+U 1 1 57309159
+P 5025 5625
+F 0 "C2" H 5085 5639 70  0000 L BNN
+F 1 "10n" H 5084 5440 70  0000 L BNN
+F 2 "NNClib:SMD_0805" H 5015 5415 65  0001 L TNN
+F 3 "" H 5025 5625 60  0001 C CNN
+	1    5025 5625
+	1    0    0    -1  
+$EndComp
+$Comp
+L LETTER_L #FRAME1
+U 1 1 57309285
+P 2025 7775
+F 0 "#FRAME1" H 2075 7825 60  0001 C CNN
+F 1 "~" H 2025 -14825 60  0001 C CNN
+F 2 "" H 2025 -14825 60  0001 C CNN
+F 3 "" H 2025 -14825 60  0001 C CNN
+	1    2025 7775
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #GND01
+U 1 1 573093B1
+P 1425 4425
+F 0 "#GND01" H 1325 4325 70  0001 L BNN
+F 1 "GND" H 1325 4325 70  0000 L BNN
+F 2 "" H 1425 4425 60  0001 C CNN
+F 3 "" H 1425 4425 60  0001 C CNN
+	1    1425 4425
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #GND02
+U 1 1 57309415
+P 2825 4425
+F 0 "#GND02" H 2726 4325 70  0001 L BNN
+F 1 "GND" V 2825 4200 70  0000 L BNN
+F 2 "" H 2825 4425 60  0001 C CNN
+F 3 "" H 2825 4425 60  0001 C CNN
+	1    2825 4425
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #GND03
+U 1 1 57309479
+P 2825 4525
+F 0 "#GND03" H 2726 4425 70  0001 L BNN
+F 1 "GND" V 2850 4300 70  0000 L BNN
+F 2 "" H 2825 4525 60  0001 C CNN
+F 3 "" H 2825 4525 60  0001 C CNN
+	1    2825 4525
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #GND04
+U 1 1 573094DD
+P 5725 5125
+F 0 "#GND04" H 5625 5025 70  0001 L BNN
+F 1 "GND" H 5625 5025 70  0000 L BNN
+F 2 "" H 5725 5125 60  0001 C CNN
+F 3 "" H 5725 5125 60  0001 C CNN
+	1    5725 5125
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #GND05
+U 1 1 57309541
+P 5725 4925
+F 0 "#GND05" H 5625 4825 70  0001 L BNN
+F 1 "GND" H 5625 4825 70  0000 L BNN
+F 2 "" H 5725 4925 60  0001 C CNN
+F 3 "" H 5725 4925 60  0001 C CNN
+	1    5725 4925
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #GND06
+U 1 1 573095A5
+P 3625 5625
+F 0 "#GND06" H 3525 5525 70  0001 L BNN
+F 1 "GND" V 3675 5400 70  0000 L BNN
+F 2 "" H 3625 5625 60  0001 C CNN
+F 3 "" H 3625 5625 60  0001 C CNN
+	1    3625 5625
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #GND07
+U 1 1 57309609
+P 5725 4325
+F 0 "#GND07" H 5625 4225 70  0001 L BNN
+F 1 "GND" H 5625 4225 70  0000 L BNN
+F 2 "" H 5725 4325 60  0001 C CNN
+F 3 "" H 5725 4325 60  0001 C CNN
+	1    5725 4325
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #GND08
+U 1 1 573096D1
+P 6925 5625
+F 0 "#GND08" H 6825 5525 70  0001 L BNN
+F 1 "GND" H 6825 5525 70  0000 L BNN
+F 2 "" H 6925 5625 60  0001 C CNN
+F 3 "" H 6925 5625 60  0001 C CNN
+	1    6925 5625
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #GND09
+U 1 1 57309735
+P 5025 6700
+F 0 "#GND09" H 4925 6600 70  0001 L BNN
+F 1 "GND" V 5050 6475 70  0000 L BNN
+F 2 "" H 5025 6700 60  0001 C CNN
+F 3 "" H 5025 6700 60  0001 C CNN
+	1    5025 6700
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND #GND010
+U 1 1 57309799
+P 5725 6025
+F 0 "#GND010" H 5625 5925 70  0001 L BNN
+F 1 "GND" H 5625 5925 70  0000 L BNN
+F 2 "" H 5725 6025 60  0001 C CNN
+F 3 "" H 5725 6025 60  0001 C CNN
+	1    5725 6025
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #GND011
+U 1 1 573097FD
+P 5025 6025
+F 0 "#GND011" H 4925 5925 70  0001 L BNN
+F 1 "GND" H 4925 5925 70  0000 L BNN
+F 2 "" H 5025 6025 60  0001 C CNN
+F 3 "" H 5025 6025 60  0001 C CNN
+	1    5025 6025
+	1    0    0    -1  
+$EndComp
+$Comp
+L TESTPOINT_SMALL GND25
+U 1 1 57309929
+P 6925 5125
+F 0 "GND25" H 6934 4900 70  0000 L BNN
+F 1 "TESTPOINT_SMALL" H 6915 5015 65  0001 L TNN
+F 2 "RHD2000_eval_board:RHD2000_eval_board-TESTPOINT_SMALL" H 6915 4915 65  0001 L TNN
+F 3 "" H 6925 5125 60  0001 C CNN
+	1    6925 5125
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #P+012
+U 1 1 57309BE5
+P 6925 4425
+F 0 "#P+012" V 6825 4325 70  0001 L BNN
+F 1 "VCC" V 6825 4325 70  0000 L BNN
+F 2 "" H 6925 4425 60  0001 C CNN
+F 3 "" H 6925 4425 60  0001 C CNN
+	1    6925 4425
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #P+013
+U 1 1 57309C49
+P 5725 4525
+F 0 "#P+013" V 5626 4425 70  0001 L BNN
+F 1 "VCC" V 5626 4425 70  0000 L BNN
+F 2 "" H 5725 4525 60  0001 C CNN
+F 3 "" H 5725 4525 60  0001 C CNN
+	1    5725 4525
+	0    1    1    0   
+$EndComp
+$Comp
+L VCC #P+014
+U 1 1 57309D11
+P 4725 5625
+F 0 "#P+014" V 4625 5525 70  0001 L BNN
+F 1 "VCC" V 4764 5652 70  0000 L BNN
+F 2 "" H 4725 5625 60  0001 C CNN
+F 3 "" H 4725 5625 60  0001 C CNN
+	1    4725 5625
+	-1   0    0    1   
+$EndComp
+$Comp
+L VCC #P+015
+U 1 1 57309D75
+P 2825 4625
+F 0 "#P+015" V 2725 4525 70  0001 L BNN
+F 1 "VCC" V 2850 4650 70  0000 L BNN
+F 2 "" H 2825 4625 60  0001 C CNN
+F 3 "" H 2825 4625 60  0001 C CNN
+	1    2825 4625
+	0    -1   -1   0   
+$EndComp
+$Comp
+L VCC #P+016
+U 1 1 57309DD9
+P 5725 5325
+F 0 "#P+016" V 5625 5225 70  0001 L BNN
+F 1 "VCC" V 5625 5225 70  0000 L BNN
+F 2 "" H 5725 5325 60  0001 C CNN
+F 3 "" H 5725 5325 60  0001 C CNN
+	1    5725 5325
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #P+017
+U 1 1 57309E3D
+P 4925 6700
+F 0 "#P+017" V 4825 6600 70  0001 L BNN
+F 1 "VCC" V 5000 6725 70  0000 L BNN
+F 2 "" H 4925 6700 60  0001 C CNN
+F 3 "" H 4925 6700 60  0001 C CNN
+	1    4925 6700
+	-1   0    0    -1  
+$EndComp
+$Comp
+L R_0402 R0
+U 1 1 57309F05
+P 1725 4225
+F 0 "R0" H 1575 4284 70  0000 L BNN
+F 1 "0" H 1575 4095 70  0000 L BNN
+F 2 "NNClib:SMD_0805" H 1715 4015 65  0001 L TNN
+F 3 "" H 1725 4225 60  0001 C CNN
+	1    1725 4225
+	1    0    0    -1  
+$EndComp
+$Comp
+L TESTPOINT_SMALL VDD25
+U 1 1 5730A545
+P 6925 4925
+F 0 "VDD25" H 6935 4700 70  0000 L BNN
+F 1 "TESTPOINT_SMALL" H 6915 4815 65  0001 L TNN
+F 2 "RHD2000_eval_board:RHD2000_eval_board-TESTPOINT_SMALL" H 6915 4715 65  0001 L TNN
+F 3 "" H 6925 4925 60  0001 C CNN
+	1    6925 4925
+	-1   0    0    1   
+$EndComp
+Text GLabel 1525 4225 0    10   UnSpc ~ 0
+GND
+Text GLabel 1425 4325 1    10   UnSpc ~ 0
+GND
+Text GLabel 3025 4425 0    10   UnSpc ~ 0
+GND
+Text GLabel 2925 4425 2    10   UnSpc ~ 0
+GND
+Text GLabel 3025 4525 0    10   UnSpc ~ 0
+GND
+Text GLabel 2925 4525 2    10   UnSpc ~ 0
+GND
+Text GLabel 5525 5125 2    10   UnSpc ~ 0
+GND
+Text GLabel 5625 5125 0    10   UnSpc ~ 0
+GND
+Text GLabel 5525 4925 2    10   UnSpc ~ 0
+GND
+Text GLabel 5625 4925 0    10   UnSpc ~ 0
+GND
+Text GLabel 3625 5425 3    10   UnSpc ~ 0
+GND
+Text GLabel 3625 5525 1    10   UnSpc ~ 0
+GND
+Text GLabel 5725 5825 3    10   UnSpc ~ 0
+GND
+Text GLabel 5725 5925 1    10   UnSpc ~ 0
+GND
+Text GLabel 5025 5825 3    10   UnSpc ~ 0
+GND
+Text GLabel 5025 5925 1    10   UnSpc ~ 0
+GND
+Text GLabel 5025 6900 1    10   UnSpc ~ 0
+GND
+Text GLabel 5025 6800 3    10   UnSpc ~ 0
+GND
+Text GLabel 5525 4325 2    10   UnSpc ~ 0
+GND
+Text GLabel 5625 4325 0    10   UnSpc ~ 0
+GND
+Text GLabel 6925 5425 3    10   UnSpc ~ 0
+GND
+Text GLabel 6925 5525 1    10   UnSpc ~ 0
+GND
+Text Label 3025 4225 2    10   ~ 0
+N$1
+Text Label 1925 4225 0    10   ~ 0
+N$1
+Text Label 3025 3425 2    10   ~ 0
+N$2
+Text Label 3025 3325 2    10   ~ 0
+N$3
+Text Label 3025 3525 2    10   ~ 0
+N$4
+Text Label 3025 3625 2    10   ~ 0
+N$5
+Text Label 3025 3725 2    10   ~ 0
+N$6
+Text Label 3025 3825 2    10   ~ 0
+N$7
+Text Label 3025 3925 2    10   ~ 0
+N$8
+Text Label 3025 4025 2    10   ~ 0
+N$9
+Text Label 5525 4025 0    10   ~ 0
+N$10
+Text Label 3825 5425 3    10   ~ 0
+N$11
+Text Label 5525 3325 0    10   ~ 0
+N$12
+Text Label 5525 3425 0    10   ~ 0
+N$13
+Text Label 5525 3525 0    10   ~ 0
+N$14
+Text Label 5525 3625 0    10   ~ 0
+N$15
+Text Label 5525 3725 0    10   ~ 0
+N$16
+Text Label 5525 3825 0    10   ~ 0
+N$17
+Text Label 5525 3925 0    10   ~ 0
+N$18
+Text Label 4225 2925 1    10   ~ 0
+N$19
+Text Label 4125 2925 1    10   ~ 0
+N$20
+Text Label 4025 2925 1    10   ~ 0
+N$21
+Text Label 3625 2925 1    10   ~ 0
+N$22
+Text Label 3725 2925 1    10   ~ 0
+N$23
+Text Label 3825 2925 1    10   ~ 0
+N$24
+Text Label 3925 2925 1    10   ~ 0
+N$25
+Text Label 4325 2925 1    10   ~ 0
+N$26
+Text Label 4425 2925 1    10   ~ 0
+N$27
+Text Label 4525 2925 1    10   ~ 0
+N$28
+Text Label 4625 2925 1    10   ~ 0
+N$29
+Text Label 4725 2925 1    10   ~ 0
+N$30
+Text Label 4825 2925 1    10   ~ 0
+N$31
+Text Label 4925 2925 1    10   ~ 0
+N$32
+Text Label 3025 3225 2    10   ~ 0
+N$33
+Text Label 5525 3225 0    10   ~ 0
+N$34
+Text Label 3925 5425 3    10   ~ 0
+N$35
+Text Label 4025 5425 3    10   ~ 0
+N$36
+Text Label 4125 5425 3    10   ~ 0
+N$37
+Text Label 4225 5425 3    10   ~ 0
+N$38
+Text Label 4325 5425 3    10   ~ 0
+N$39
+Text Label 4425 5425 3    10   ~ 0
+N$40
+Text Label 4525 5425 3    10   ~ 0
+N$41
+Text Label 5025 5425 3    10   ~ 0
+N$42
+Text Label 5025 5525 1    10   ~ 0
+N$42
+Text Label 4925 5425 3    10   ~ 0
+N$43
+Text Label 3025 4825 2    10   ~ 0
+N$44
+Text Label 3325 5425 3    10   ~ 0
+N$46
+Text Label 3425 5425 3    10   ~ 0
+N$48
+Text GLabel 5525 4525 2    10   UnSpc ~ 0
+VCC
+Text GLabel 5625 4525 0    10   UnSpc ~ 0
+VCC
+Text GLabel 4725 5425 3    10   UnSpc ~ 0
+VCC
+Text GLabel 4725 5525 1    10   UnSpc ~ 0
+VCC
+Text GLabel 3025 4625 0    10   UnSpc ~ 0
+VCC
+Text GLabel 2925 4625 2    10   UnSpc ~ 0
+VCC
+Text GLabel 5725 5525 1    10   UnSpc ~ 0
+VCC
+Text GLabel 5725 5425 3    10   UnSpc ~ 0
+VCC
+Text GLabel 4925 6900 1    10   UnSpc ~ 0
+VCC
+Text GLabel 4925 6800 3    10   UnSpc ~ 0
+VCC
+Text GLabel 6925 4625 1    10   UnSpc ~ 0
+VCC
+Text GLabel 6925 4525 3    10   UnSpc ~ 0
+VCC
+$Comp
+L RHD2216_QFN U2
+U 1 1 57519216
+P 4225 4225
+F 0 "U2" H 4025 4475 45  0000 L BNN
+F 1 "RHD2216_QFN" H 4025 4275 45  0000 L BNN
+F 2 "NNClib:RHD2000-QFN56_8_X_8_LARGE" H 4255 4375 20  0001 C CNN
+F 3 "" H 4225 4225 60  0000 C CNN
+	1    4225 4225
+	1    0    0    -1  
+$EndComp
+Text GLabel 2575 3925 0    39   Input ~ 0
+REF_ELECTRODE
+Text GLabel 2575 3725 0    39   Input ~ 0
+REF_ELECTRODE
+Text GLabel 2575 3525 0    39   Input ~ 0
+REF_ELECTRODE
+Text GLabel 2575 3325 0    39   Input ~ 0
+REF_ELECTRODE
+Text GLabel 3625 2825 1    39   Input ~ 0
+REF_ELECTRODE
+Text GLabel 3825 2825 1    39   Input ~ 0
+REF_ELECTRODE
+Text GLabel 4025 2825 1    39   Input ~ 0
+REF_ELECTRODE
+Text GLabel 4225 2825 1    39   Input ~ 0
+REF_ELECTRODE
+Text GLabel 4425 2825 1    39   Input ~ 0
+REF_ELECTRODE
+Text GLabel 4625 2825 1    39   Input ~ 0
+REF_ELECTRODE
+Text GLabel 4825 2825 1    39   Input ~ 0
+REF_ELECTRODE
+Text GLabel 6050 3225 2    39   Input ~ 0
+REF_ELECTRODE
+Text GLabel 6050 3425 2    39   Input ~ 0
+REF_ELECTRODE
+Text GLabel 6050 3625 2    39   Input ~ 0
+REF_ELECTRODE
+Text GLabel 6050 3825 2    39   Input ~ 0
+REF_ELECTRODE
+Text GLabel 6050 4025 2    39   Input ~ 0
+REF_ELECTRODE
+Text GLabel 4700 1100 2    39   Input ~ 0
+REF_ELECTRODE
+$Comp
+L VCC #P+018
+U 1 1 575B1C17
+P 2825 4825
+F 0 "#P+018" V 2725 4725 70  0001 L BNN
+F 1 "VCC" V 2875 4850 70  0000 L BNN
+F 2 "" H 2825 4825 60  0001 C CNN
+F 3 "" H 2825 4825 60  0001 C CNN
+	1    2825 4825
+	0    -1   -1   0   
+$EndComp
+$Comp
+L VCC #P+019
+U 1 1 575B1D03
+P 3425 5600
+F 0 "#P+019" V 3325 5500 70  0001 L BNN
+F 1 "VCC" V 3450 5650 70  0000 L BNN
+F 2 "" H 3425 5600 60  0001 C CNN
+F 3 "" H 3425 5600 60  0001 C CNN
+	1    3425 5600
+	-1   0    0    1   
+$EndComp
+$Comp
+L VCC #P+020
+U 1 1 575B1DD2
+P 3325 5600
+F 0 "#P+020" V 3225 5500 70  0001 L BNN
+F 1 "VCC" V 3350 5650 70  0000 L BNN
+F 2 "" H 3325 5600 60  0001 C CNN
+F 3 "" H 3325 5600 60  0001 C CNN
+	1    3325 5600
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND #GND021
+U 1 1 575AE6AA
+P 3625 1075
+F 0 "#GND021" H 3525 975 70  0001 L BNN
+F 1 "GND" H 3525 975 70  0000 L BNN
+F 2 "" H 3625 1075 60  0001 C CNN
+F 3 "" H 3625 1075 60  0001 C CNN
+	1    3625 1075
+	0    1    1    0   
+$EndComp
+$Comp
+L NNC_18pin_Omnetics_connector S1
+U 1 1 575B16F8
+P 3825 1500
+F 0 "S1" H 4025 1275 45  0000 L BNN
+F 1 "NNC_18pin_Omnetics_connector" H 2925 1475 45  0001 L BNN
+F 2 "NNClib:NNC_18pins_Omnetics_male_THT_connector" H 4375 1900 20  0001 C CNN
+F 3 "" H 3825 1500 60  0000 C CNN
+	1    3825 1500
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	1525 4225 1425 4225
+Wire Wire Line
+	1425 4225 1425 4325
+Wire Wire Line
+	2925 4425 3025 4425
+Wire Wire Line
+	2925 4525 3025 4525
+Wire Wire Line
+	5625 5125 5525 5125
+Wire Wire Line
+	5625 4925 5525 4925
+Wire Wire Line
+	3625 5525 3625 5425
+Wire Wire Line
+	5725 5925 5725 5825
+Wire Wire Line
+	5025 5925 5025 5825
+Wire Wire Line
+	5025 6800 5025 6900
+Wire Wire Line
+	5625 4325 5525 4325
+Wire Wire Line
+	6925 5525 6925 5425
+Wire Wire Line
+	1925 4225 3025 4225
+Connection ~ 2025 4225
+Wire Wire Line
+	3925 5425 3925 6350
+Wire Wire Line
+	4125 5425 4125 6575
+Wire Wire Line
+	5025 5525 5025 5425
+Wire Wire Line
+	5625 4525 5525 4525
+Wire Wire Line
+	5625 4725 5525 4725
+Wire Wire Line
+	4725 5525 4725 5425
+Wire Wire Line
+	2925 4625 3025 4625
+Wire Wire Line
+	5725 5425 5725 5525
+Wire Wire Line
+	4925 6800 4925 6900
+Wire Wire Line
+	6925 4525 6925 4625
+Wire Wire Line
+	5525 4025 6050 4025
+Wire Wire Line
+	5525 3825 6050 3825
+Wire Wire Line
+	5525 3625 6050 3625
+Wire Wire Line
+	5525 3425 6050 3425
+Wire Wire Line
+	5525 3225 6050 3225
+Wire Wire Line
+	2575 3325 3025 3325
+Wire Wire Line
+	2575 3525 3025 3525
+Wire Wire Line
+	2575 3725 3025 3725
+Wire Wire Line
+	2575 3925 3025 3925
+Wire Wire Line
+	3625 2925 3625 2825
+Wire Wire Line
+	3825 2925 3825 2825
+Wire Wire Line
+	4025 2925 4025 2825
+Wire Wire Line
+	4225 2825 4225 2925
+Wire Wire Line
+	4425 2925 4425 2825
+Wire Wire Line
+	4625 2925 4625 2825
+Wire Wire Line
+	4825 2925 4825 2825
+Wire Wire Line
+	4525 5425 4525 6900
+Wire Wire Line
+	4125 6575 3925 6575
+Wire Wire Line
+	3925 6575 3925 6900
+Wire Wire Line
+	3925 6350 3625 6350
+Wire Wire Line
+	3625 6350 3625 6900
+Wire Wire Line
+	4325 5425 4325 6700
+Wire Wire Line
+	4325 6700 4225 6700
+Wire Wire Line
+	4225 6700 4225 6900
+Wire Wire Line
+	2925 3225 3025 3225
+Wire Wire Line
+	2925 2050 2925 3225
+Wire Wire Line
+	3725 2150 3725 2925
+Wire Wire Line
+	4125 1900 4125 2925
+Wire Wire Line
+	4325 2925 4325 2225
+Wire Wire Line
+	4525 2925 4525 2175
+Wire Wire Line
+	4725 2925 4725 2125
+Wire Wire Line
+	4925 2925 4925 2075
+Wire Wire Line
+	5675 3325 5525 3325
+Wire Wire Line
+	5675 1000 5675 3325
+Wire Wire Line
+	5725 3525 5525 3525
+Wire Wire Line
+	5725 950  5725 3525
+Wire Wire Line
+	5775 3725 5525 3725
+Wire Wire Line
+	5775 900  5775 3725
+Wire Wire Line
+	5825 3925 5525 3925
+Wire Wire Line
+	5825 850  5825 3925
+Wire Wire Line
+	2850 3425 3025 3425
+Wire Wire Line
+	2850 1000 2850 3425
+Wire Wire Line
+	2850 1000 3825 1000
+Wire Wire Line
+	3825 1000 3825 1100
+Wire Wire Line
+	2800 3625 3025 3625
+Wire Wire Line
+	2800 950  2800 3625
+Wire Wire Line
+	2800 950  3925 950 
+Wire Wire Line
+	3925 950  3925 1100
+Wire Wire Line
+	2750 3825 3025 3825
+Wire Wire Line
+	2750 900  2750 3825
+Wire Wire Line
+	2750 900  4025 900 
+Wire Wire Line
+	4025 900  4025 1100
+Wire Wire Line
+	2700 4025 3025 4025
+Wire Wire Line
+	2700 850  2700 4025
+Wire Wire Line
+	2700 850  4125 850 
+Wire Wire Line
+	4125 850  4125 1100
+Wire Wire Line
+	2925 4825 3025 4825
+Wire Wire Line
+	3425 5500 3425 5425
+Wire Wire Line
+	3325 5425 3325 5500
+Wire Wire Line
+	3825 1900 3825 2050
+Wire Wire Line
+	3825 2050 2925 2050
+Wire Wire Line
+	3925 1900 3925 2150
+Wire Wire Line
+	3925 2150 3725 2150
+Wire Wire Line
+	3925 2925 3925 2250
+Wire Wire Line
+	3925 2250 4025 2250
+Wire Wire Line
+	4025 2250 4025 1900
+Wire Wire Line
+	4325 2225 4225 2225
+Wire Wire Line
+	4225 2225 4225 1900
+Wire Wire Line
+	4525 2175 4325 2175
+Wire Wire Line
+	4325 2175 4325 1900
+Wire Wire Line
+	4725 2125 4425 2125
+Wire Wire Line
+	4425 2125 4425 1900
+Wire Wire Line
+	4925 2075 4525 2075
+Wire Wire Line
+	4525 2075 4525 1900
+Wire Wire Line
+	5675 1000 4525 1000
+Wire Wire Line
+	4525 1000 4525 1100
+Wire Wire Line
+	5725 950  4425 950 
+Wire Wire Line
+	4425 950  4425 1100
+Wire Wire Line
+	5775 900  4325 900 
+Wire Wire Line
+	4325 900  4325 1100
+Wire Wire Line
+	5825 850  4225 850 
+Wire Wire Line
+	4225 850  4225 1100
+Wire Wire Line
+	3725 1075 3725 1100
+Wire Wire Line
+	4700 1100 4625 1100
+$Comp
+L NNC_SPI_connector U1
+U 1 1 575EED02
+P 3925 7000
+F 0 "U1" H 5325 6600 60  0000 C CNN
+F 1 "NNC_SPI_connector" H 4325 6400 60  0000 C CNN
+F 2 "NNClib:magnet_connector_bottom" H 3925 7000 60  0001 C CNN
+F 3 "" H 3925 7000 60  0000 C CNN
+	1    3925 7000
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #GND022
+U 1 1 576849B1
+P 5725 4725
+F 0 "#GND022" H 5625 4625 70  0001 L BNN
+F 1 "GND" H 5625 4625 70  0000 L BNN
+F 2 "" H 5725 4725 60  0001 C CNN
+F 3 "" H 5725 4725 60  0001 C CNN
+	1    5725 4725
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C_0402 C3
+U 1 1 576BDBCF
+P 2700 5450
+F 0 "C3" H 2760 5464 70  0000 L BNN
+F 1 "100n" H 2759 5265 70  0000 L BNN
+F 2 "NNClib:SMD_0805" H 2690 5240 65  0001 L TNN
+F 3 "" H 2700 5450 60  0001 C CNN
+	1    2700 5450
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #P+023
+U 1 1 576BDC25
+P 2700 5125
+F 0 "#P+023" V 2600 5025 70  0001 L BNN
+F 1 "VCC" V 2600 5025 70  0000 L BNN
+F 2 "" H 2700 5125 60  0001 C CNN
+F 3 "" H 2700 5125 60  0001 C CNN
+	1    2700 5125
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #GND024
+U 1 1 576BDD07
+P 2700 5900
+F 0 "#GND024" H 2600 5800 70  0001 L BNN
+F 1 "GND" H 2600 5800 70  0000 L BNN
+F 2 "" H 2700 5900 60  0001 C CNN
+F 3 "" H 2700 5900 60  0001 C CNN
+	1    2700 5900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2700 5225 2700 5350
+Wire Wire Line
+	2700 5650 2700 5800
+Text Notes 4780 1586 0    157  Italic 31
+Omnetics Nano Strip Connector (NSD-18-DD-GS)
+Text Notes 3358 3828 0    157  Italic 31
+RHD2000 Intan \n     Chip
+Text Notes 1598 7502 0    157  Italic 31
+Conector SPI \ne Alimentação
+$EndSCHEMATC

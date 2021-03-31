@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name nnclib)(type Legacy)(uri ${KICAD_SYMBOL_DIR}/nnclib.lib)(options "")(descr ""))
+  (lib (name Omnetics_A79026-rescue)(type Legacy)(uri ${KIPRJMOD}/Omnetics_A79026-rescue.lib)(options "")(descr ""))
+)

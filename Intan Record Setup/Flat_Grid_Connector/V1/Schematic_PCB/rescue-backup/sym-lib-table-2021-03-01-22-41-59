@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name Capacete-rescue)(type Legacy)(uri ${KIPRJMOD}/Capacete-rescue.lib)(options "")(descr ""))
+)
