@@ -1,19 +1,35 @@
-# A fully adapted headstage for electrophysiological experiments with custom and scalable electrode arrays to record widely distributed brain regions.
+# A fully adapted headstage for electrophysiological experiments with custom and scalable electrode arrays to record widely distributed brain regions<br />.
 
 
-Authors: Flávio Afonso Gonçalves Mourãoa, Leonardo de Oliveira Guarnieri ab, Paulo Aparecido Amaral Júnior ab, Vinícius Rezende Carvalho ab, Eduardo Mazoni Andrade Marçal Mendes ab, Márcio Flávio Dutra Moraes a. 
+Authors: Flávio Afonso Gonçalves Mourão1, Leonardo de Oliveira Guarnieri 1,2, Paulo Aparecido Amaral Júnior 1,2, Vinícius Rezende Carvalho 1,2, Eduardo Mazoni Andrade Marçal Mendes 1,2, Márcio Flávio Dutra Moraes 1.<br />
 
 
-a.	Núcleo de Neurociências, Departamento de Fisiologia e Biofísica, Instituto de Ciências Biológicas (ICB), Universidade Federal de Minas Gerais (UFMG). Av. Antônio Carlos, 6627 - CEP 31270-901. Belo Horizonte, Minas Gerais, Brazil. 
+1.	Núcleo de Neurociências, Departamento de Fisiologia e Biofísica, Instituto de Ciências Biológicas (ICB), Universidade Federal de Minas Gerais (UFMG). Av. Antônio Carlos, 6627 - CEP 31270-901. Belo Horizonte, Minas Gerais, Brazil. <br />
 
-b.	Programa de Pós-Graduação em Engenharia Elétrica, Departamento de Engenharia Eletrônica (DELT), Escola de Engenharia, Universidade Federal de Minas Gerais (UFMG). Av. Antônio Carlos, 6627 - CEP 31270-901. Belo Horizonte, Minas Gerais, Brazil.
+2.	Programa de Pós-Graduação em Engenharia Elétrica, Departamento de Engenharia Eletrônica (DELT), Escola de Engenharia, Universidade Federal de Minas Gerais (UFMG). Av. Antônio Carlos, 6627 - CEP 31270-901. Belo Horizonte, Minas Gerais, Brazil.<br />
 
 
 
-Correspondence:
+Correspondence:<br />
 
-Flávio Afonso Gonçalves Mourão, PhD
-Email: fagm@ufmg.br	
+Flávio Afonso Gonçalves Mourão, PhD<br />
+Núcleo de Neurociências, Departamento de Fisiologia e Biofísica<br />
+Instituto de Ciências Biológicas (ICB)<br /> 
+Universidade Federal de Minas Gerais (UFMG)<br />
+Av. Antônio Carlos, 6627 - CEP 31270-901- Campus Pampulha<br />
+Belo Horizonte - MG - Brazil<br />
+Fax: +55 31 3409-2924 Phone: +55 31 3409-2927<br />
+Email: mourao.fg@gmail.com<br />
 
-Márcio Flávio Dutra Moraes, PhD
-Email: mfdm@icb.ufmg.br	
+Márcio Flávio Dutra Moraes, PhD<br />
+Núcleo de Neurociências, Departamento de Fisiologia e Biofísica<br />
+Instituto de Ciências Biológicas (ICB)<br /> 
+Universidade Federal de Minas Gerais (UFMG)<br />
+Av. Antônio Carlos, 6627 - CEP 31270-901- Campus Pampulha<br />
+Belo Horizonte - MG - Brazil<br />
+Fax: +55 31 3409-2924 Phone: +55 31 3409-2930<br />
+Email: mfdm@icb.ufmg.br<br />
+
+
+
+![https://github.com/fgmourao/Lab_Projects/blob/master/Intan%20Record%20Setup/Tutorial_images/Fig1.png](https://github.com/fgmourao/Lab_Projects/blob/master/Intan%20Record%20Setup/Tutorial_images/Fig1.png)

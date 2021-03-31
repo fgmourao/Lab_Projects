@@ -1,3 +1,3 @@
-# 3D Models for Stereotaxic Holders Tools
+# 3D Models for Stereotaxic Holder Tools
 
 
