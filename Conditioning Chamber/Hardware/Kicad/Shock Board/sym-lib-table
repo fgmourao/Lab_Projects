@@ -1,3 +1,0 @@
-(sym_lib_table
-  (lib (name NNC_ShockBoard-rescue)(type Legacy)(uri ${KIPRJMOD}/NNC_ShockBoard-rescue.lib)(options "")(descr ""))
-)
