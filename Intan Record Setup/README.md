@@ -1,7 +1,7 @@
 # A fully adapted headstage for electrophysiological experiments with custom and scalable electrode arrays to record widely distributed brain regions<br />
 
 
-Authors: Flávio Afonso Gonçalves Mourão1, Leonardo de Oliveira Guarnieri 1,2, Paulo Aparecido Amaral Júnior 1,2, Vinícius Rezende Carvalho 1,2, Eduardo Mazoni Andrade Marçal Mendes 1,2, Márcio Flávio Dutra Moraes 1.<br />
+Authors: Flávio Afonso Gonçalves Mourão 1, Leonardo de Oliveira Guarnieri 1,2, Paulo Aparecido Amaral Júnior 1,2, Vinícius Rezende Carvalho 1,2, Eduardo Mazoni Andrade Marçal Mendes 1,2, Márcio Flávio Dutra Moraes 1.<br />
 
 
 1.	Núcleo de Neurociências, Departamento de Fisiologia e Biofísica, Instituto de Ciências Biológicas (ICB), Universidade Federal de Minas Gerais (UFMG). Av. Antônio Carlos, 6627 - CEP 31270-901. Belo Horizonte, Minas Gerais, Brazil. <br />
