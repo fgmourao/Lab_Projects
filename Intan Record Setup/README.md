@@ -29,7 +29,9 @@ Av. Antônio Carlos, 6627 - CEP 31270-901- Campus Pampulha<br />
 Belo Horizonte - MG - Brazil<br />
 Fax: +55 31 3409-2924 Phone: +55 31 3409-2930<br />
 Email: mfdm@icb.ufmg.br<br />
+<br />
 
 
+![https://github.com/fgmourao/Lab_Projects/blob/master/Intan%20Record%20Setup/Tutorial_images/Fig1.png](https://github.com/fgmourao/Lab_Projects/blob/master/Intan%20Record%20Setup/Tutorial_images/Fig1.png)<br />
 
-![https://github.com/fgmourao/Lab_Projects/blob/master/Intan%20Record%20Setup/Tutorial_images/Fig1.png](https://github.com/fgmourao/Lab_Projects/blob/master/Intan%20Record%20Setup/Tutorial_images/Fig1.png)
+Headstage adapted from the Intan RHD headstage system with a flexible printed circuit (SMD/FPC) connector. A) Headstage fully assembled in real size. B) Top and bottom view of the headstage. Both the 2132 and 2216 Intan chips can be used according to the circuit configuration chosen. C) Flat-Grid connector board for sixteen channels designed to connect to the SMD/FPC connector. D) Fiber board punctured with small holes according to the chosen stereotaxic coordinates. A variable number of electrodes can be aligned and fixed from distinct dorsoventral configurations.
