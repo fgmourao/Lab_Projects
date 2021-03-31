@@ -1,4 +1,4 @@
-# A fully adapted headstage for electrophysiological experiments with custom and scalable electrode arrays to record widely distributed brain regions<br />.
+# A fully adapted headstage for electrophysiological experiments with custom and scalable electrode arrays to record widely distributed brain regions<br />
 
 
 Authors: Flávio Afonso Gonçalves Mourão1, Leonardo de Oliveira Guarnieri 1,2, Paulo Aparecido Amaral Júnior 1,2, Vinícius Rezende Carvalho 1,2, Eduardo Mazoni Andrade Marçal Mendes 1,2, Márcio Flávio Dutra Moraes 1.<br />
@@ -19,8 +19,8 @@ Universidade Federal de Minas Gerais (UFMG)<br />
 Av. Antônio Carlos, 6627 - CEP 31270-901- Campus Pampulha<br />
 Belo Horizonte - MG - Brazil<br />
 Fax: +55 31 3409-2924 Phone: +55 31 3409-2927<br />
-Email: mourao.fg@gmail.com <br />
-	   fagm@ufmg.br<br />
+Email:  mourao.fg@gmail.com <br />
+		fagm@ufmg.br<br />
 
 Márcio Flávio Dutra Moraes, PhD<br />
 Núcleo de Neurociências, Departamento de Fisiologia e Biofísica<br />
