@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name RHD2132_headstage-rescue)(type Legacy)(uri ${KIPRJMOD}/RHD2132_headstage-rescue.lib)(options "")(descr ""))
+)

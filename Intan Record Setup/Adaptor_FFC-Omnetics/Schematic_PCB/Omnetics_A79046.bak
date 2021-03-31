@@ -1,0 +1,151 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:nnclib
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L FFCfemale20 J?
+U 1 1 5B2D415F
+P 3550 2925
+F 0 "J?" H 3800 2925 50  0000 C CNN
+F 1 "FFCfemale20" H 3850 1725 50  0000 C CNN
+F 2 "" H 3750 2325 50  0001 C CNN
+F 3 "" H 3750 2325 50  0001 C CNN
+	1    3550 2925
+	1    0    0    -1  
+$EndComp
+$Comp
+L FFCfemale20 J?
+U 1 1 5B2D4189
+P 5025 2875
+F 0 "J?" H 5275 2875 50  0000 C CNN
+F 1 "FFCfemale20" H 5325 1675 50  0000 C CNN
+F 2 "" H 5225 2275 50  0001 C CNN
+F 3 "" H 5225 2275 50  0001 C CNN
+	1    5025 2875
+	1    0    0    -1  
+$EndComp
+$Comp
+L Omn_A79026-001 U?
+U 1 1 5B2D41C5
+P 4325 5475
+F 0 "U?" H 4575 4475 60  0000 C CNN
+F 1 "Omn_A79026-001" H 3875 6425 60  0000 C CNN
+F 2 "" H 4325 5525 60  0000 C CNN
+F 3 "" H 4325 5525 60  0000 C CNN
+	1    4325 5475
+	1    0    0    -1  
+$EndComp
+Text Label 3875 4675 0    60   ~ 0
+1
+Text Label 4625 4675 0    60   ~ 0
+2
+Text Label 4625 4775 0    60   ~ 0
+4
+Text Label 4625 4875 0    60   ~ 0
+6
+Text Label 4625 4975 0    60   ~ 0
+8
+Text Label 4625 5075 0    60   ~ 0
+10
+Text Label 4625 5175 0    60   ~ 0
+12
+Text Label 4625 5275 0    60   ~ 0
+14
+Text Label 4625 5375 0    60   ~ 0
+16
+Text Label 4625 5475 0    60   ~ 0
+18
+Text Label 4625 5575 0    60   ~ 0
+20
+Text Label 4625 5675 0    60   ~ 0
+22
+Text Label 4625 5775 0    60   ~ 0
+24
+Text Label 4625 5875 0    60   ~ 0
+26
+Text Label 4625 5975 0    60   ~ 0
+28
+Text Label 4625 6075 0    60   ~ 0
+30
+Text Label 4625 6175 0    60   ~ 0
+32
+Text Label 4625 6275 0    60   ~ 0
+34
+Text Label 4625 6375 0    60   ~ 0
+36
+Text Label 3875 4775 0    60   ~ 0
+3
+Text Label 3875 4875 0    60   ~ 0
+5
+Text Label 3875 4975 0    60   ~ 0
+7
+Text Label 3875 5075 0    60   ~ 0
+9
+Text Label 3875 5175 0    60   ~ 0
+11
+Text Label 3875 5275 0    60   ~ 0
+13
+Text Label 3875 5375 0    60   ~ 0
+15
+Text Label 3875 5475 0    60   ~ 0
+17
+Text Label 3875 5575 0    60   ~ 0
+19
+Text Label 3875 5675 0    60   ~ 0
+21
+Text Label 3875 5775 0    60   ~ 0
+23
+Text Label 3875 5875 0    60   ~ 0
+25
+Text Label 3875 5975 0    60   ~ 0
+27
+Text Label 3875 6075 0    60   ~ 0
+29
+Text Label 3875 6175 0    60   ~ 0
+31
+Text Label 3875 6275 0    60   ~ 0
+33
+Text Label 3875 6375 0    60   ~ 0
+35
+$EndSCHEMATC

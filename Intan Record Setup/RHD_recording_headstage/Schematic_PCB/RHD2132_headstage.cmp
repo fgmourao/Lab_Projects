@@ -1,0 +1,143 @@
+Cmp-Mod V01 Created by Cvpcb (2015-02-06 BZR 5410)-product   date = Mon 09 Feb 2015 04:12:04 PM PST
+
+BeginCmp
+TimeStamp = /57308F65;
+Reference = AI25;
+ValeurCmp = TESTPOINT_SMALL;
+IdModule  = TESTPOINT_SMALL;
+EndCmp
+
+BeginCmp
+TimeStamp = /5730902D;
+Reference = C1;
+ValeurCmp = C_0402;
+IdModule  = 0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /573090F5;
+Reference = C2;
+ValeurCmp = C_0402;
+IdModule  = 0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /573091BD;
+Reference = DO25;
+ValeurCmp = TESTPOINT_SMALL;
+IdModule  = TESTPOINT_SMALL;
+EndCmp
+
+BeginCmp
+TimeStamp = /573098C5;
+Reference = GND25;
+ValeurCmp = TESTPOINT_SMALL;
+IdModule  = TESTPOINT_SMALL;
+EndCmp
+
+BeginCmp
+TimeStamp = /5730998D;
+Reference = H1;
+ValeurCmp = SCREW_HOLE_2-56;
+IdModule  = SCREW_HOLE_2-56;
+EndCmp
+
+BeginCmp
+TimeStamp = /57309A55;
+Reference = IN2;
+ValeurCmp = TESTPOINT_SMALL;
+IdModule  = TESTPOINT_SMALL;
+EndCmp
+
+BeginCmp
+TimeStamp = /57309B1D;
+Reference = IN3;
+ValeurCmp = TESTPOINT_SMALL;
+IdModule  = TESTPOINT_SMALL;
+EndCmp
+
+BeginCmp
+TimeStamp = /57309EA1;
+Reference = R0;
+ValeurCmp = R_0402;
+IdModule  = 0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /57309F69;
+Reference = R1;
+ValeurCmp = R_0402;
+IdModule  = 0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /5730A031;
+Reference = R2;
+ValeurCmp = R_0402;
+IdModule  = 0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /5730A0F9;
+Reference = R3;
+ValeurCmp = R_0402;
+IdModule  = 0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /5730A1C1;
+Reference = REF25;
+ValeurCmp = TESTPOINT_SMALL;
+IdModule  = TESTPOINT_SMALL;
+EndCmp
+
+BeginCmp
+TimeStamp = /5730A289;
+Reference = S1;
+ValeurCmp = OMNETICS_A79025;
+IdModule  = OMNETICS_A79025;
+EndCmp
+
+BeginCmp
+TimeStamp = /5730A351;
+Reference = S2;
+ValeurCmp = RHD2000-CABLE-AMP-SIDE;
+IdModule  = OMNETICS_PZN-12-AA;
+EndCmp
+
+BeginCmp
+TimeStamp = /5730A419;
+Reference = U1;
+ValeurCmp = RHD2132_QFN;
+IdModule  = QFN56_8_X_8_LARGE;
+EndCmp
+
+BeginCmp
+TimeStamp = /5730A4E1;
+Reference = VDD25;
+ValeurCmp = TESTPOINT_SMALL;
+IdModule  = TESTPOINT_SMALL;
+EndCmp
+
+BeginCmp
+TimeStamp = /5730A5A9;
+Reference = VP_0;
+ValeurCmp = VPDEV0;
+IdModule  = VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /5730A671;
+Reference = VP_1;
+ValeurCmp = VPDEV0;
+IdModule  = VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /5730A739;
+Reference = VP_2;
+ValeurCmp = VPDEV0;
+IdModule  = VPAC0;
+EndCmp
+
+EndListe
