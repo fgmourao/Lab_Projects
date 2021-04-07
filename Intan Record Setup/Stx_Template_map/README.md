@@ -1,6 +1,6 @@
-# Headstage adapted from the Intan RHD headstage system with a flexible printed circuit (SMD/FPC) connector <br />
+# Stereotaxic Template  <br />
 
-![https://github.com/fgmourao/Lab_Projects/blob/master/Intan%20Record%20Setup/Tutorial_images/headstage2.png](https://github.com/fgmourao/Lab_Projects/blob/master/Intan%20Record%20Setup/Tutorial_images/headstage2.png)<br />
+![https://github.com/fgmourao/Lab_Projects/blob/master/Intan%20Record%20Setup/Tutorial_images/6.png](https://github.com/fgmourao/Lab_Projects/blob/master/Intan%20Record%20Setup/Tutorial_images/6.png)<br />
 
 
 
